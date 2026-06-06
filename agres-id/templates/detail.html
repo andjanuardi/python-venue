@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+{% block title %}{{ product.title }}{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb small">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item"><a href="/?category={{ product.category_name }}">{{ product.category_name }}</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ product.title[:60] }}...</li>
+    </ol>
+</nav>
+
+<div class="row g-3">
+    <!-- Image -->
+    <div class="col-md-5">
+        <div class="card">
+            <div class="card-body text-center p-3">
+                {% if product.image_primary %}
+                <img src="{{ product.image_primary }}" class="product-img-lg" alt="{{ product.title }}"
+                     onerror="this.src='https://via.placeholder.com/400x400?text=No+Image'">
+                {% else %}
+                <div class="py-5 text-secondary">No Image</div>
+                {% endif %}
+            </div>
+        </div>
+        {% if product.image_urls %}
+        {% set urls = product.image_urls.split('\n') %}
+        {% if urls|length > 1 %}
+        <div class="d-flex gap-1 mt-2 overflow-auto">
+            {% for url in urls[:5] %}
+            <img src="{{ url }}" class="border rounded" style="width:60px;height:60px;object-fit:cover;cursor:pointer"
+                 loading="lazy" onerror="this.style.display='none'">
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endif %}
+    </div>
+
+    <!-- Info -->
+    <div class="col-md-7">
+        <h5 class="mb-1">{{ product.title }}</h5>
+        <div class="d-flex gap-2 mb-2 flex-wrap">
+            <span class="badge bg-secondary">{{ product.category_name }}</span>
+            {% if product.brand %}<span class="badge bg-info">{{ product.brand }}</span>{% endif %}
+            <span class="badge bg-{{ 'success' if product.in_stock else 'danger' }}">
+                {{ 'In Stock' if product.in_stock else 'Out of Stock' }}
+            </span>
+        </div>
+
+        <div class="mb-2">
+            {% if product.has_discount and product.discounted_price %}
+            <span class="price-discount fs-4">Rp{{ "{:,.0f}".format(product.discounted_price) }}</span>
+            <span class="price-original fs-6 ms-2">Rp{{ "{:,.0f}".format(product.price) }}</span>
+            <span class="badge bg-danger ms-2">
+                -{{ ((1 - product.discounted_price / product.price) * 100)|round|int }}%
+            </span>
+            {% else %}
+            <span class="fw-bold fs-4">Rp{{ "{:,.0f}".format(product.price_effective or product.price) }}</span>
+            {% endif %}
+        </div>
+
+        <table class="table table-sm small mb-2" style="max-width:400px">
+            <tr><td class="text-secondary">SKU</td><td>{{ product.sku or '-' }}</td></tr>
+            <tr><td class="text-secondary">Product Code</td><td>{{ product.product_code or '-' }}</td></tr>
+            <tr><td class="text-secondary">Category</td><td>{{ product.category_name }}</td></tr>
+            <tr><td class="text-secondary">Brand</td><td>{{ product.brand or '-' }}</td></tr>
+            <tr><td class="text-secondary">Weight</td><td>{% if product.weight %}{{ product.weight }} g{% else %}-{% endif %}</td></tr>
+            <tr><td class="text-secondary">Quantity</td><td>{{ product.quantity }}</td></tr>
+            <tr><td class="text-secondary">Colors</td><td>{{ product.colors or '-' }}</td></tr>
+            <tr><td class="text-secondary">Sizes</td><td>{{ product.sizes or '-' }}</td></tr>
+        </table>
+    </div>
+</div>
+
+<!-- Description -->
+<div class="row mt-3">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header py-2">
+                <ul class="nav nav-tabs card-header-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#desc" data-bs-toggle="tab">Description</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#specs" data-bs-toggle="tab">Specifications</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body tab-content p-3">
+                <div class="tab-pane fade show active" id="desc">
+                    {% if product.description %}
+                    <div class="small">{{ product.description|safe }}</div>
+                    {% else %}
+                    <p class="text-secondary mb-0">{{ product.short_description or 'No description available.' }}</p>
+                    {% endif %}
+                </div>
+                <div class="tab-pane fade" id="specs">
+                    {% if attrs %}
+                    <table class="table table-sm table-striped small mb-0">
+                        {% for k, v in attrs %}
+                        <tr>
+                            <td class="fw-semibold" style="width:200px">{{ k }}</td>
+                            <td>{{ v }}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                    {% else %}
+                    <p class="text-secondary mb-0">No specifications available.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Related Products -->
+{% if related %}
+<div class="row mt-3">
+    <div class="col-12">
+        <h6 class="fw-bold mb-2"><i class="bi bi-link me-1"></i>Related Products</h6>
+        <div class="row g-2">
+            {% for r in related %}
+            <div class="col-6 col-md-4 col-lg-2">
+                <div class="card h-100">
+                    <div class="card-body p-2">
+                        <div class="text-center mb-1" style="height:60px;">
+                            {% if r.image_primary %}
+                            <img src="{{ r.image_primary }}" style="max-height:60px;width:auto;object-fit:contain"
+                                 loading="lazy" onerror="this.style.display='none'">
+                            {% endif %}
+                        </div>
+                        <a href="/product/{{ r.slug }}" class="text-decoration-none small text-truncate-2 d-block">{{ r.title }}</a>
+                        <small class="fw-bold">Rp{{ "{:,.0f}".format(r.price_effective or r.price) }}</small>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
