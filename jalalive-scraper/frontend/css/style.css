@@ -1,0 +1,86 @@
+/* Nav links */
+.nav-link {
+  @apply flex items-center space-x-1.5 px-3 py-2 rounded-lg text-sm font-medium text-gray-400 hover:text-white hover:bg-gray-800 transition-all duration-150;
+}
+.nav-link.active {
+  @apply text-emerald-400 bg-gray-800/50;
+}
+.mobile-nav {
+  @apply rounded-lg;
+}
+
+/* Cards */
+.card {
+  @apply bg-gray-900 border border-gray-800 rounded-xl p-5;
+}
+.card-hover {
+  @apply hover:border-gray-700 transition-colors;
+}
+
+/* Status badges */
+.badge-live {
+  @apply inline-flex items-center space-x-1 px-2 py-0.5 rounded-full text-xs font-medium bg-red-900/50 text-red-400 border border-red-800;
+}
+.badge-live .pulse {
+  @apply w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse;
+}
+.badge-finished {
+  @apply inline-flex items-center space-x-1 px-2 py-0.5 rounded-full text-xs font-medium bg-gray-800 text-gray-400;
+}
+.badge-upcoming {
+  @apply inline-flex items-center space-x-1 px-2 py-0.5 rounded-full text-xs font-medium bg-blue-900/50 text-blue-400 border border-blue-800;
+}
+
+/* Tables */
+.table-container {
+  @apply overflow-x-auto rounded-xl border border-gray-800;
+}
+table {
+  @apply w-full text-sm;
+}
+thead th {
+  @apply px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider bg-gray-900 border-b border-gray-800;
+}
+tbody tr {
+  @apply border-b border-gray-800 hover:bg-gray-800/30 transition-colors;
+}
+tbody td {
+  @apply px-4 py-3 text-sm;
+}
+
+/* Buttons */
+.btn {
+  @apply inline-flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-150;
+}
+.btn-primary {
+  @apply btn bg-emerald-600 text-white hover:bg-emerald-500;
+}
+.btn-secondary {
+  @apply btn bg-gray-800 text-gray-300 hover:bg-gray-700 border border-gray-700;
+}
+.btn-sm {
+  @apply px-3 py-1.5 text-xs;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { @apply bg-gray-900; }
+::-webkit-scrollbar-thumb { @apply bg-gray-700 rounded; }
+::-webkit-scrollbar-thumb:hover { @apply bg-gray-600; }
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Match score display */
+.score-display {
+  @apply text-3xl font-black font-mono;
+}
+.score-divider {
+  @apply text-2xl font-bold text-gray-500;
+}
