@@ -86,3 +86,50 @@
 2026-06-23 14:01:50,059 [INFO] __main__:   https://jalalive11.com: active
 2026-06-23 14:01:50,059 [INFO] __main__:   https://www.jalaace2.com: dead
 2026-06-23 14:01:50,059 [INFO] __main__: Active domains: 4
+2026-06-23 14:14:15,796 [INFO] __main__: === JalaLive Scraper — Full Run ===
+2026-06-23 14:14:15,984 [INFO] storage.database: Database connected: /content/python-venue/jalalive-scraper/data/jalalive.db
+2026-06-23 14:14:16,000 [INFO] monitors.domain_monitor: Loaded 6 domains from config
+2026-06-23 14:14:16,000 [INFO] __main__: Scraping schedules from https://reboundac.com...
+2026-06-23 14:14:16,339 [INFO] scrapers.base_scraper: Fetching [1/3]: https://reboundac.com
+2026-06-23 14:14:16,868 [INFO] httpx: HTTP Request: GET https://reboundac.com "HTTP/1.1 200 OK"
+2026-06-23 14:14:16,873 [INFO] scrapers.base_scraper: Got response 200 (14689 bytes)
+2026-06-23 14:14:16,907 [INFO] scrapers.schedule_scraper: Found 2 matches on https://reboundac.com
+2026-06-23 14:14:16,965 [INFO] __main__: Saved 2 matches to database
+2026-06-23 14:14:16,974 [INFO] __main__: Exported 2 matches to /content/python-venue/jalalive-scraper/data/schedules.json
+2026-06-23 14:14:16,974 [INFO] __main__: Scraping stream links for 2 matches...
+2026-06-23 14:14:16,979 [INFO] __main__: Exported 0 streams to /content/python-venue/jalalive-scraper/data/streams.json
+2026-06-23 14:14:17,176 [INFO] scrapers.base_scraper: Fetching [1/3]: https://www.google.com/search?q=ARGENTINA+PORTUGAL+skor
+2026-06-23 14:14:17,245 [INFO] httpx: HTTP Request: GET https://www.google.com/search?q=ARGENTINA+PORTUGAL+skor "HTTP/1.1 200 OK"
+2026-06-23 14:14:17,261 [INFO] scrapers.base_scraper: Got response 200 (91333 bytes)
+2026-06-23 14:14:17,469 [INFO] scrapers.base_scraper: Fetching [1/3]: https://www.google.com/search?q=JERMAN+JEPANG+skor
+2026-06-23 14:14:17,531 [INFO] httpx: HTTP Request: GET https://www.google.com/search?q=JERMAN+JEPANG+skor "HTTP/1.1 200 OK"
+2026-06-23 14:14:17,550 [INFO] scrapers.base_scraper: Got response 200 (91516 bytes)
+2026-06-23 14:14:17,559 [INFO] __main__: Updated 0/2 livescores
+2026-06-23 14:14:17,561 [INFO] __main__: Scraping news from https://jalalive.cc...
+2026-06-23 14:14:17,739 [INFO] scrapers.base_scraper: Fetching [1/3]: https://jalalive.cc
+2026-06-23 14:14:18,612 [INFO] httpx: HTTP Request: GET https://jalalive.cc "HTTP/1.1 200 OK"
+2026-06-23 14:14:18,617 [INFO] scrapers.base_scraper: Got response 200 (36020 bytes)
+2026-06-23 14:14:18,659 [INFO] scrapers.news_scraper: Found 1 news articles on https://jalalive.cc
+2026-06-23 14:14:18,678 [INFO] __main__: Saved 1 news articles to database
+2026-06-23 14:14:18,679 [INFO] __main__: Exported 1 news to /content/python-venue/jalalive-scraper/data/news.json
+2026-06-23 14:14:18,694 [INFO] monitors.domain_monitor: Loaded 6 domains from config
+2026-06-23 14:14:18,694 [INFO] __main__: Searching for new mirror domains...
+2026-06-23 14:14:19,020 [INFO] httpx: HTTP Request: GET https://www.google.com/search?q=jalas30+link+alternatif "HTTP/1.1 200 OK"
+2026-06-23 14:14:20,770 [INFO] httpx: HTTP Request: GET https://www.bing.com/search?q=jalas30+link+alternatif "HTTP/1.1 200 OK"
+2026-06-23 14:14:22,412 [INFO] httpx: HTTP Request: GET https://www.google.com/search?q=jalalive+domain+baru "HTTP/1.1 200 OK"
+2026-06-23 14:14:24,161 [INFO] httpx: HTTP Request: GET https://www.bing.com/search?q=jalalive+domain+baru "HTTP/1.1 200 OK"
+2026-06-23 14:14:25,773 [INFO] httpx: HTTP Request: GET https://www.google.com/search?q=jalalive+nonton+bola "HTTP/1.1 200 OK"
+2026-06-23 14:14:27,469 [INFO] httpx: HTTP Request: GET https://www.bing.com/search?q=jalalive+nonton+bola "HTTP/1.1 200 OK"
+2026-06-23 14:14:29,119 [INFO] httpx: HTTP Request: GET https://www.google.com/search?q=jalalive+live+streaming "HTTP/1.1 200 OK"
+2026-06-23 14:14:30,857 [INFO] httpx: HTTP Request: GET https://www.bing.com/search?q=jalalive+live+streaming "HTTP/1.1 200 OK"
+2026-06-23 14:14:32,506 [INFO] httpx: HTTP Request: GET https://www.google.com/search?q=site:jala*.com+jalalive "HTTP/1.1 200 OK"
+2026-06-23 14:14:34,194 [INFO] httpx: HTTP Request: GET https://www.bing.com/search?q=site:jala*.com+jalalive "HTTP/1.1 200 OK"
+2026-06-23 14:14:35,839 [INFO] scrapers.mirror_finder: MirrorFinder: discovered 0 new domains
+2026-06-23 14:14:35,839 [INFO] __main__: Found 0 new valid mirrors
+2026-06-23 14:14:35,841 [INFO] storage.database: Database closed
+2026-06-23 14:14:35,841 [INFO] __main__: Done in 20.0s
+2026-06-23 14:20:53,693 [INFO] __main__: Starting API server on http://0.0.0.0:8000
+2026-06-23 14:20:53,872 [INFO] storage.database: Database connected: /content/python-venue/jalalive-scraper/data/jalalive.db
+2026-06-23 14:20:53,872 [INFO] api.app: API server started
+2026-06-23 14:20:57,290 [INFO] storage.database: Database closed
+2026-06-23 14:20:57,291 [INFO] api.app: API server stopped

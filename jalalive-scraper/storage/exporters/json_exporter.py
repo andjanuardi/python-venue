@@ -34,3 +34,18 @@ def export_streams(streams: list, filename: str = None):
     with open(path, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
     return path
+
+
+def export_news(articles: list, filename: str = None):
+    path = os.path.join(settings.DATA_DIR, filename or f"news_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}.json")
+    data = []
+    for a in articles:
+        if hasattr(a, 'model_dump'):
+            data.append(a.model_dump(mode="json"))
+        elif isinstance(a, dict):
+            data.append(a)
+        else:
+            data.append(a.__dict__)
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=2, ensure_ascii=False)
+    return path

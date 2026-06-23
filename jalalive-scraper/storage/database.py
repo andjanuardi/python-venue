@@ -53,10 +53,23 @@ CREATE TABLE IF NOT EXISTS domains (
     added_at TEXT NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS news (
+    news_id TEXT PRIMARY KEY,
+    title TEXT NOT NULL,
+    date TEXT,
+    excerpt TEXT,
+    url TEXT NOT NULL UNIQUE,
+    thumbnail TEXT,
+    source TEXT NOT NULL,
+    scraped_at TEXT NOT NULL
+);
+
 CREATE INDEX IF NOT EXISTS idx_matches_date ON matches(date);
 CREATE INDEX IF NOT EXISTS idx_matches_league ON matches(league);
 CREATE INDEX IF NOT EXISTS idx_matches_domain ON matches(domain);
 CREATE INDEX IF NOT EXISTS idx_stream_match ON stream_links(match_id);
+CREATE INDEX IF NOT EXISTS idx_news_source ON news(source);
+CREATE INDEX IF NOT EXISTS idx_news_date ON news(date);
 """
 
 
