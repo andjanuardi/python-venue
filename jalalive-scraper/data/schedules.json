@@ -1,0 +1,30 @@
+[
+  {
+    "match_id": "306a09f50192",
+    "home_team": "ARGENTINA",
+    "away_team": "PORTUGAL",
+    "date": null,
+    "time": "02:00",
+    "league": "GRUP B",
+    "home_score": null,
+    "away_score": null,
+    "status": null,
+    "detail_url": null,
+    "domain": "https://reboundac.com",
+    "scraped_at": "2026-06-23T14:00:54.478070"
+  },
+  {
+    "match_id": "814a6e82b68f",
+    "home_team": "JERMAN",
+    "away_team": "JEPANG",
+    "date": null,
+    "time": "07:00",
+    "league": "GRUP C",
+    "home_score": null,
+    "away_score": null,
+    "status": null,
+    "detail_url": null,
+    "domain": "https://reboundac.com",
+    "scraped_at": "2026-06-23T14:00:54.478420"
+  }
+]

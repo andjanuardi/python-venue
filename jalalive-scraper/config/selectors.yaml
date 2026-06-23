@@ -1,0 +1,20 @@
+# CSS Selectors per domain
+default:
+  schedule_container: "body"
+  match_item: "article, .match-item, tr, .event-item"
+  match_date: ".date, .tanggal, time, .match-date"
+  match_time: ".time, .jam, .match-time, .kickoff"
+  match_home_team: ".home, .home-team, .team-home"
+  match_away_team: ".away, .away-team, .team-away"
+  match_league: ".league, .liga, .competition"
+  match_link: "a[href*='nonton'], a[href*='stream'], a[href*='live']"
+  stream_iframe: "iframe[src*='youtube'], iframe[src*='stream'], .stream-player iframe"
+  stream_link: "a[href*='youtube'], a[href*='stream'], .btn-stream"
+
+reboundac.com:
+  schedule_grid: "div.grid.grid-cols-1.md\\:grid-cols-2.gap-6"
+  match_card: "div.glass-dark"
+  match_group_label: "p.text-emerald-500"
+  match_team_name: "p.text-xl"
+  match_time: "span.text-3xl"
+  stream_button: "a[href*='nonton'], a.cta-button, .hero a"

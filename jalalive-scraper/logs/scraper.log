@@ -1,0 +1,88 @@
+2026-06-23 13:53:49,728 [INFO] __main__: Scraping schedules from https://jalalive.cc...
+2026-06-23 13:53:50,318 [INFO] scrapers.base_scraper: Fetching [1/3]: https://jalalive.cc
+2026-06-23 13:53:51,260 [INFO] httpx: HTTP Request: GET https://jalalive.cc "HTTP/1.1 200 OK"
+2026-06-23 13:53:51,278 [INFO] scrapers.base_scraper: Got response 200 (36020 bytes)
+2026-06-23 13:53:51,368 [INFO] scrapers.schedule_scraper: Found 6 matches on https://jalalive.cc
+2026-06-23 13:53:51,374 [INFO] __main__: Saved 6 records to /content/python-project/jalalive-scraper/data/schedules.json
+2026-06-23 13:54:44,175 [INFO] __main__: Scraping schedules from https://reboundac.com...
+2026-06-23 13:54:44,336 [INFO] scrapers.base_scraper: Fetching [1/3]: https://reboundac.com
+2026-06-23 13:54:44,831 [INFO] httpx: HTTP Request: GET https://reboundac.com "HTTP/1.1 200 OK"
+2026-06-23 13:54:44,834 [INFO] scrapers.base_scraper: Got response 200 (14689 bytes)
+2026-06-23 13:54:44,846 [INFO] scrapers.schedule_scraper: Found 0 matches on https://reboundac.com
+2026-06-23 13:54:44,846 [INFO] __main__: Saved 0 records to /content/python-project/jalalive-scraper/data/schedules.json
+2026-06-23 13:55:28,388 [INFO] __main__: Scraping schedules from https://reboundac.com...
+2026-06-23 13:55:28,709 [INFO] scrapers.base_scraper: Fetching [1/3]: https://reboundac.com
+2026-06-23 13:55:29,035 [INFO] httpx: HTTP Request: GET https://reboundac.com "HTTP/1.1 200 OK"
+2026-06-23 13:55:29,043 [INFO] scrapers.base_scraper: Got response 200 (14689 bytes)
+2026-06-23 13:55:29,084 [INFO] scrapers.schedule_scraper: Found 2 matches on https://reboundac.com
+2026-06-23 13:55:29,085 [INFO] __main__: Saved 2 records to /content/python-project/jalalive-scraper/data/schedules.json
+2026-06-23 13:55:40,275 [INFO] __main__: Scraping schedules from https://reboundac.com...
+2026-06-23 13:55:40,420 [INFO] scrapers.base_scraper: Fetching [1/3]: https://reboundac.com
+2026-06-23 13:55:40,914 [INFO] httpx: HTTP Request: GET https://reboundac.com "HTTP/1.1 200 OK"
+2026-06-23 13:55:40,916 [INFO] scrapers.base_scraper: Got response 200 (14689 bytes)
+2026-06-23 13:55:40,927 [INFO] scrapers.schedule_scraper: Found 2 matches on https://reboundac.com
+2026-06-23 13:55:40,928 [INFO] __main__: Saved 2 records to /content/python-project/jalalive-scraper/data/schedules.json
+2026-06-23 13:56:03,205 [INFO] __main__: === JalaLive Scraper — Full Run ===
+2026-06-23 13:56:03,207 [INFO] __main__: Scraping schedules from https://reboundac.com...
+2026-06-23 13:56:03,463 [INFO] scrapers.base_scraper: Fetching [1/3]: https://reboundac.com
+2026-06-23 13:56:04,005 [INFO] httpx: HTTP Request: GET https://reboundac.com "HTTP/1.1 200 OK"
+2026-06-23 13:56:04,008 [INFO] scrapers.base_scraper: Got response 200 (14689 bytes)
+2026-06-23 13:56:04,026 [INFO] scrapers.schedule_scraper: Found 2 matches on https://reboundac.com
+2026-06-23 13:56:04,029 [INFO] __main__: Saved 2 records to /content/python-project/jalalive-scraper/data/schedules.json
+2026-06-23 13:56:04,029 [INFO] __main__: Scraping stream links for 2 matches...
+2026-06-23 13:56:04,029 [INFO] __main__: Saved 0 records to /content/python-project/jalalive-scraper/data/streams.json
+2026-06-23 13:56:04,030 [INFO] __main__: Done in 0.8s
+2026-06-23 13:57:13,516 [INFO] __main__: === JalaLive Scraper — Full Run ===
+2026-06-23 13:57:13,516 [INFO] __main__: Scraping schedules from https://reboundac.com...
+2026-06-23 13:57:13,640 [INFO] scrapers.base_scraper: Fetching [1/3]: https://reboundac.com
+2026-06-23 13:57:14,148 [INFO] httpx: HTTP Request: GET https://reboundac.com "HTTP/1.1 200 OK"
+2026-06-23 13:57:14,150 [INFO] scrapers.base_scraper: Got response 200 (14689 bytes)
+2026-06-23 13:57:14,160 [INFO] scrapers.schedule_scraper: Found 2 matches on https://reboundac.com
+2026-06-23 13:57:14,161 [INFO] __main__: Saved 2 records to /content/python-project/jalalive-scraper/data/schedules.json
+2026-06-23 13:57:14,161 [INFO] __main__: Scraping stream links for 2 matches...
+2026-06-23 13:57:14,161 [INFO] __main__: Saved 0 records to /content/python-project/jalalive-scraper/data/streams.json
+2026-06-23 13:57:14,161 [INFO] __main__: Done in 0.6s
+2026-06-23 14:00:53,671 [INFO] __main__: === JalaLive Scraper — Full Run ===
+2026-06-23 14:00:53,769 [INFO] storage.database: Database connected: /content/python-project/jalalive-scraper/data/jalalive.db
+2026-06-23 14:00:53,777 [INFO] monitors.domain_monitor: Loaded 6 domains from config
+2026-06-23 14:00:53,777 [INFO] __main__: Using domain: https://reboundac.com (schedule)
+2026-06-23 14:00:53,777 [INFO] __main__: Scraping schedules from https://reboundac.com...
+2026-06-23 14:00:53,929 [INFO] scrapers.base_scraper: Fetching [1/3]: https://reboundac.com
+2026-06-23 14:00:54,462 [INFO] httpx: HTTP Request: GET https://reboundac.com "HTTP/1.1 200 OK"
+2026-06-23 14:00:54,464 [INFO] scrapers.base_scraper: Got response 200 (14689 bytes)
+2026-06-23 14:00:54,478 [INFO] scrapers.schedule_scraper: Found 2 matches on https://reboundac.com
+2026-06-23 14:00:54,511 [INFO] __main__: Saved 2 matches to database
+2026-06-23 14:00:54,511 [INFO] __main__: Exported 2 matches to /content/python-project/jalalive-scraper/data/schedules.json
+2026-06-23 14:00:54,512 [INFO] __main__: Scraping stream links for 2 matches...
+2026-06-23 14:00:54,512 [INFO] __main__: Exported 0 streams to /content/python-project/jalalive-scraper/data/streams.json
+2026-06-23 14:00:54,518 [INFO] monitors.domain_monitor: Loaded 6 domains from config
+2026-06-23 14:00:54,518 [INFO] __main__: Searching for new mirror domains...
+2026-06-23 14:00:54,635 [INFO] httpx: HTTP Request: GET https://www.google.com/search?q=jalas30+link+alternatif "HTTP/1.1 200 OK"
+2026-06-23 14:00:56,429 [INFO] httpx: HTTP Request: GET https://www.bing.com/search?q=jalas30+link+alternatif "HTTP/1.1 200 OK"
+2026-06-23 14:00:58,047 [INFO] httpx: HTTP Request: GET https://www.google.com/search?q=jalalive+domain+baru "HTTP/1.1 200 OK"
+2026-06-23 14:00:59,759 [INFO] httpx: HTTP Request: GET https://www.bing.com/search?q=jalalive+domain+baru "HTTP/1.1 200 OK"
+2026-06-23 14:01:01,452 [INFO] httpx: HTTP Request: GET https://www.google.com/search?q=jalalive+nonton+bola "HTTP/1.1 200 OK"
+2026-06-23 14:01:03,170 [INFO] httpx: HTTP Request: GET https://www.bing.com/search?q=jalalive+nonton+bola "HTTP/1.1 200 OK"
+2026-06-23 14:01:04,887 [INFO] httpx: HTTP Request: GET https://www.google.com/search?q=jalalive+live+streaming "HTTP/1.1 200 OK"
+2026-06-23 14:01:06,616 [INFO] httpx: HTTP Request: GET https://www.bing.com/search?q=jalalive+live+streaming "HTTP/1.1 200 OK"
+2026-06-23 14:01:08,321 [INFO] httpx: HTTP Request: GET https://www.google.com/search?q=site:jala*.com+jalalive "HTTP/1.1 200 OK"
+2026-06-23 14:01:10,047 [INFO] httpx: HTTP Request: GET https://www.bing.com/search?q=site:jala*.com+jalalive "HTTP/1.1 200 OK"
+2026-06-23 14:01:11,558 [INFO] scrapers.mirror_finder: MirrorFinder: discovered 0 new domains
+2026-06-23 14:01:11,558 [INFO] __main__: Found 0 new valid mirrors
+2026-06-23 14:01:11,560 [INFO] storage.database: Database closed
+2026-06-23 14:01:11,560 [INFO] __main__: Done in 17.9s
+2026-06-23 14:01:20,476 [INFO] monitors.domain_monitor: Loaded 6 domains from config
+2026-06-23 14:01:20,478 [INFO] __main__: Checking all domains...
+2026-06-23 14:01:21,388 [INFO] httpx: HTTP Request: GET https://reboundac.com "HTTP/1.1 200 OK"
+2026-06-23 14:01:22,853 [INFO] httpx: HTTP Request: GET https://jalalive.cc "HTTP/1.1 200 OK"
+2026-06-23 14:01:24,029 [INFO] httpx: HTTP Request: GET https://www.jalalive3.id "HTTP/1.1 200 OK"
+2026-06-23 14:01:34,627 [WARNING] monitors.domain_monitor: Health check failed for https://jalaace5.com: 
+2026-06-23 14:01:38,896 [INFO] httpx: HTTP Request: GET https://jalalive11.com "HTTP/1.1 200 OK"
+2026-06-23 14:01:49,551 [WARNING] monitors.domain_monitor: Health check failed for https://www.jalaace2.com: 
+2026-06-23 14:01:50,057 [INFO] __main__:   https://reboundac.com: active
+2026-06-23 14:01:50,058 [INFO] __main__:   https://jalalive.cc: active
+2026-06-23 14:01:50,059 [INFO] __main__:   https://www.jalalive3.id: active
+2026-06-23 14:01:50,059 [INFO] __main__:   https://jalaace5.com: dead
+2026-06-23 14:01:50,059 [INFO] __main__:   https://jalalive11.com: active
+2026-06-23 14:01:50,059 [INFO] __main__:   https://www.jalaace2.com: dead
+2026-06-23 14:01:50,059 [INFO] __main__: Active domains: 4
