@@ -74,7 +74,7 @@ def decrypt(code):
                     return
 
             channels = len(j.get("info", []))
-            countries = j.get("countrylist", [])
+            countries = j.get("country_list", j.get("countrylist", []))
             print(f"channels={channels}, countries={len(countries)}", end="")
 
             dec_path = os.path.join(CACHE, f"{code}_decrypted.json")

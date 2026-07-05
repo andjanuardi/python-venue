@@ -1,20 +1,7 @@
 import json, os, subprocess, sys, shutil, time, base64, urllib.request
 
-SP_URL = "https://cdn.jsdelivr.net/gh/duktektv/duktektv/bittv/SP.json"
 CACHE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
 CONFIG_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "config.json")
-
-# Migrate old config from ~/.bittv-cache if present
-_old_cfg = os.path.join(os.path.expanduser("~/.bittv-cache"), "config.json")
-if os.path.exists(_old_cfg):
-    try:
-        with open(_old_cfg) as f:
-            _data = json.load(f)
-        with open(CONFIG_FILE, "w") as f:
-            json.dump(_data, f)
-        os.remove(_old_cfg)
-    except:
-        pass
 
 B64TABLE = {c: i for i, c in enumerate(b'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/')}
 
@@ -63,6 +50,15 @@ def find_player(custom=""):
         return found
     return ""
 
+def find_ffmpeg():
+    local = os.path.join(os.path.dirname(os.path.abspath(__file__)), "ffmpeg", "ffmpeg.exe")
+    if os.path.isfile(local):
+        return local
+    found = shutil.which("ffmpeg")
+    if found:
+        return found
+    return ""
+
 def b64decode_lenient(s):
     filtered = bytes(c for c in s if c in B64TABLE)
     if not filtered:
@@ -71,38 +67,6 @@ def b64decode_lenient(s):
     if padding:
         filtered += b"=" * padding
     return base64.b64decode(filtered)
-
-def fetch_json(url):
-    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Firefox/128.0"})
-    with urllib.request.urlopen(req, timeout=30) as r:
-        return json.loads(r.read().decode("utf-8"))
-
-def load_sp_data(force=False):
-    os.makedirs(CACHE_DIR, exist_ok=True)
-    ctype = "Fetching" if (force or not os.path.exists(os.path.join(CACHE_DIR, "SP.json")) or time.time() - os.path.getmtime(os.path.join(CACHE_DIR, "SP.json")) > 3600) else "Loading"
-    progress_msg(f"{ctype} SP.json...")
-    sp_cache = os.path.join(CACHE_DIR, "SP.json")
-    if force or not os.path.exists(sp_cache) or time.time() - os.path.getmtime(sp_cache) > 3600:
-        try:
-            sp = fetch_json(SP_URL)
-            with open(sp_cache, "w", encoding="utf-8") as f:
-                json.dump(sp, f)
-        except:
-            if os.path.exists(sp_cache):
-                with open(sp_cache, encoding="utf-8") as f:
-                    sp = json.load(f)
-            else:
-                sp = {"info": [], "countrylist": []}
-    else:
-        with open(sp_cache, encoding="utf-8") as f:
-            sp = json.load(f)
-
-    channels = []
-    countries = {}
-    for c in sp.get("countrylist", []):
-        countries[c.get("alpha_2_code", c.get("alpha_2", ""))] = c.get("country_name", c.get("name", ""))
-    done_msg(f"OK SP.json loaded ({len(channels)} channels, {len(countries)} countries)")
-    return channels, countries
 
 DECRYPT_PY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "decrypt.py")
 
@@ -134,7 +98,7 @@ def load_country_data(code, force=False):
     except:
         return [], {}
     channels = d.get("info", [])
-    countrylist = d.get("countrylist", [])
+    countrylist = d.get("country_list", d.get("countrylist", []))
     return channels, countrylist
 
 def decode_ck(b64):
@@ -256,9 +220,7 @@ def server_stream(ch, cfg):
         print("  ERROR: Stream URL kosong!")
         return
 
-    ff = os.path.join(os.path.dirname(os.path.abspath(__file__)), "ffmpeg", "ffmpeg.exe")
-    if not os.path.isfile(ff):
-        ff = shutil.which("ffmpeg")
+    ff = cfg.get("ffmpeg_path") or find_ffmpeg()
     if not ff:
         print("  ERROR: ffmpeg tidak ditemukan!")
         return
@@ -548,9 +510,10 @@ def settings(cfg, countries, on_country_change=None):
             header("Info")
             print("  BitTV Player v2.0")
             print(f"  Player : {find_player() or 'NOT FOUND'}")
+            print(f"  FFmpeg : {find_ffmpeg() or 'NOT FOUND'}")
             print(f"  Cache  : {cache_size()/1024:.0f} KB ({len(os.listdir(CACHE_DIR))} files)")
             print(f"  Config : {CONFIG_FILE}")
-            print(f"  SP countries: {len(countries)}")
+            print(f"  Countries: {len(countries)}")
             print(f"  Available codes: {', '.join(sorted(countries))} + AN, EV (alias ID)")
             input("  Enter...")
         elif c == "Q":
@@ -564,35 +527,74 @@ def main():
         if fb:
             cfg["player_path"] = fb
             save_config(cfg)
+    if not cfg.get("ffmpeg_path"):
+        fb_ff = find_ffmpeg()
+        if fb_ff:
+            cfg["ffmpeg_path"] = fb_ff
+            save_config(cfg)
 
-    sp_channels, sp_countries = load_sp_data()
+    default_country = cfg.get("country", "")
+    if not default_country:
+        cfg["country"] = "ID"
+        save_config(cfg)
+        default_country = "ID"
+
+    os.makedirs(CACHE_DIR, exist_ok=True)
+    chs, countrylist_raw = load_country_data(default_country)
+    if not chs and not countrylist_raw:
+        print("  ERROR: Gagal decrypt default country!")
+        sys.exit(1)
+
+    country_cache = {}
+    seen_ids = set()
+    chs = [ch for ch in chs if ch.get("id") not in seen_ids]
+    for ch in chs:
+        seen_ids.add(ch.get("id"))
+    country_cache[default_country] = chs
+
+    sp_countries = {}
+    for c in countrylist_raw:
+        code = c.get("alpha_2_code") or c.get("alpha_2", "")
+        name = c.get("country_name") or c.get("name", "") or code
+        if code:
+            sp_countries[code] = name
+    if default_country not in sp_countries:
+        sp_countries[default_country] = default_country
+
     COUNTRY_SOURCE = {code: code for code in sp_countries}
     COUNTRY_SOURCE["AN"] = "ID"
     COUNTRY_SOURCE["EV"] = "ID"
-    country_cache = {}
-    seen_ids = set(ch.get("id") for ch in sp_channels)
+
+    if default_country not in sp_countries:
+        cfg["country"] = "ID"
+        save_config(cfg)
+        default_country = "ID"
+
+    if not cfg.get("ffmpeg_path"):
+        print("  Warning: ffmpeg tidak ditemukan -- Server Stream tidak tersedia.\n")
 
     def all_channels():
-        ch = list(sp_channels)
+        ch = []
         for src_chs in country_cache.values():
             ch.extend(src_chs)
         return ch
 
     def channels_for_code(code):
-        result = [ch for ch in sp_channels if ch.get("alpha_2_code") == code]
+        result = []
         for src_chs in country_cache.values():
             result.extend(ch for ch in src_chs if ch.get("alpha_2_code") == code)
         return result
 
     def ensure_code_loaded(code):
-        if code in COUNTRY_SOURCE:
-            src = COUNTRY_SOURCE[code]
-            if src not in country_cache:
-                chs, _ = load_country_data(src)
-                chs = [ch for ch in chs if ch.get("id") not in seen_ids]
-                for ch in chs:
-                    seen_ids.add(ch.get("id"))
-                country_cache[src] = chs
+        if code not in COUNTRY_SOURCE:
+            return
+        src = COUNTRY_SOURCE[code]
+        if src not in country_cache:
+            chs, _ = load_country_data(src)
+            chs = [ch for ch in chs if ch.get("id") not in seen_ids]
+            for ch in chs:
+                seen_ids.add(ch.get("id"))
+            country_cache[src] = chs
 
     def ensure_all_countries_loaded():
         for src in sorted(set(COUNTRY_SOURCE.values())):
@@ -605,28 +607,6 @@ def main():
 
     sorted_countries = sorted(sp_countries.items(), key=lambda x: x[1])
 
-    # Wajib pilih negara jika config belum punya default
-    default_country = cfg.get("country", "")
-    if not default_country or default_country not in sp_countries:
-        while True:
-            clear()
-            header("Select Country")
-            print("  Pilih negara default untuk memulai:\n")
-            for i, (code, name) in enumerate(sorted_countries, 1):
-                print(f"  {i:>2}. [{code}] {name}")
-            try:
-                sel = int(input("\n  Pilih: ").strip())
-                if 1 <= sel <= len(sorted_countries):
-                    code, name = sorted_countries[sel - 1]
-                    cfg["country"] = code
-                    save_config(cfg)
-                    ensure_code_loaded(code)
-                    break
-            except ValueError:
-                pass
-    else:
-        ensure_code_loaded(default_country)
-
     while True:
         chs = all_channels()
         total = len(chs)
@@ -636,7 +616,7 @@ def main():
             t = c.get("jenis", "?")
             jenis[t] = jenis.get(t, 0) + 1
         jenis_str = " | ".join(f"{k.upper()}: {v}" for k, v in sorted(jenis.items()))
-        src_info = " + ".join(sorted(country_cache.keys())) if country_cache else "(SP only)"
+        src_info = " + ".join(sorted(country_cache.keys())) if country_cache else "(none)"
 
         clear()
         header("BitTV Player v2.0")
@@ -724,13 +704,29 @@ def main():
                 list_channels(flt, cfg, f"Filter: {m[f].upper()} ({len(flt)})")
 
         elif c == "6":
-            sp_channels, sp_countries = load_sp_data(force=True)
             country_cache.clear()
             seen_ids.clear()
-            sorted_countries = sorted(sp_countries.items(), key=lambda x: x[1])
-            dc = cfg.get("country", "")
-            if dc and dc in sp_countries:
-                ensure_code_loaded(dc)
+            dc = cfg.get("country", "ID")
+            chs, countrylist_raw = load_country_data(dc, force=True)
+            if countrylist_raw:
+                new_ctry = {}
+                for c2 in countrylist_raw:
+                    code = c2.get("alpha_2_code") or c2.get("alpha_2", "")
+                    name = c2.get("country_name") or c2.get("name", "") or code
+                    if code:
+                        new_ctry[code] = name
+                if dc not in new_ctry:
+                    new_ctry[dc] = dc
+                sp_countries = new_ctry
+                COUNTRY_SOURCE.clear()
+                COUNTRY_SOURCE.update({code: code for code in sp_countries})
+                COUNTRY_SOURCE["AN"] = "ID"
+                COUNTRY_SOURCE["EV"] = "ID"
+                sorted_countries = sorted(sp_countries.items(), key=lambda x: x[1])
+            chs = [ch for ch in chs if ch.get("id") not in seen_ids]
+            for ch in chs:
+                seen_ids.add(ch.get("id"))
+            country_cache[dc] = chs
             print()
             input("  Enter...")
 

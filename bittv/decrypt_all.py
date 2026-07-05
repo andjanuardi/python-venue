@@ -88,7 +88,7 @@ for code in COUNTRIES:
             
             decrypted[code] = j
             channels = len(j.get("info", []))
-            countries = j.get("countrylist", [])
+            countries = j.get("country_list", j.get("countrylist", []))
             print(f"channels={channels}, countries={len(countries)}", end="")
             
             # Save decrypted
@@ -134,7 +134,8 @@ if decrypted:
             print(f"    t_stamp={ch.get('t_stamp')}")
     
     # Show country list
-    if "countrylist" in j:
-        print(f"\nCountries ({len(j['countrylist'])}):")
-        for c in j["countrylist"][:5]:
+    cl = j.get("country_list", j.get("countrylist", []))
+    if cl:
+        print(f"\nCountries ({len(cl)}):")
+        for c in cl[:5]:
             print(f"  {c.get('alpha_2_code','?')}: {c.get('country_name','?')}")
