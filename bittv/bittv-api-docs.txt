@@ -1,0 +1,451 @@
+================================================================================
+  BitTV v2.1.5 - API Documentation & Reverse Engineering Report
+================================================================================
+
+Source APK : BitTV.2.1.5 Mod No iklan.apk
+Decompiler : jadx v1.5.5
+Emulator   : LDPlayer9 (rooted)
+Date       : 2026-07-04
+
+================================================================================
+1. FIREBASE REMOTE CONFIG (activated values)
+================================================================================
+
+All configuration URLs and keys are served via Firebase Remote Config.
+No hardcoded API URLs exist in the APK binary.
+
+Key                              Value
+-----------------------------------------------------------------
+path_url_215                     https://raw.githubusercontent.com/movietrailersxxi-pixel/web/main/dtv/v215/
+path_url_premium_215             https://raw.githubusercontent.com/movietrailersxxi-pixel/web/main/dtv/v215/
+path_url_x                       https://raw.githubusercontent.com/brodatv1/lite/main/v213_x/
+path_url_x_premium               https://raw.githubusercontent.com/brodatv1/lite/main/v213_x/
+channel_list_url                 https://cdn.jsdelivr.net/gh/duktektv/duktektv/bittv/SP.json
+premium_channel_list_url         https://duktek.online/settings/aplikasi/api/jsondata/iptv-country-premium.json
+path_channel_list_url            https://myjson.duktek.online/json
+path_url                         https://bittv.gorr.fun/
+full_url_iklan                   https://iklan-bittv.blogspot.com/
+direct_link_ads                  https://iklan-bittv.blogspot.com/
+ad_tag_url_production            https://shocking-honey.com/d-mRFxz.dUGtNJvrZ/...
+ad_tag_url_production_skipable   (same as above)
+banner_id                        ca-app-pub-8969365987662613/6715031325
+UNITY_GAME_ID                    5656515
+UNITY_ADS_IINTERSTIAL_ID_REAL    Interstitial_Android
+UNITY_INTERSTIAL_ID              Rewarded_Android
+detail_url_play_store            details?id=com.live_streaming_tv.online_tv
+
+Source code (Firebase RC keys defined in App.java):
+  - path_url_215 / path_url_premium_215  -> per-channel JSON base URL
+  - path_url_x / path_url_x_premium      -> legacy/alternate channel base URL
+  - channel_list_url                     -> main channel list JSON (SP.json)
+  - premium_channel_list_url             -> premium-only channel list
+  - path_channel_list_url                -> staging/update channel list
+  - path_url                             -> fallback base URL
+
+================================================================================
+2. API ENDPOINTS - CHANNEL LIST
+================================================================================
+
+2a. Main Channel List (Sports TV)
+    URL    : https://cdn.jsdelivr.net/gh/duktektv/duktektv/bittv/SP.json
+    Method : GET
+    Format : Plain JSON
+    Size   : ~738 KB (77 channels)
+
+    JSON Structure:
+    {
+      "country_name": "Sports TV",
+      "country": "SP",
+      "countrylist": [ ... ],       // Array of country objects (see section 5)
+      "info": [                      // Array of channel objects (see section 3)
+        { "id": "239", "name": "Sportdigital Fussball", ... },
+        ...
+      ]
+    }
+
+2b. Per-Country Channel List (obfuscated)
+    URL    : https://raw.githubusercontent.com/movietrailersxxi-pixel/web/main/dtv/v215/{COUNTRY_CODE}.json
+    Method : GET
+    Format : base62-encoded ciphertext (NOT plain JSON)
+    Example: ID.json -> 1.6 MB single-line base62 string (A-Z, a-z, 0-9 only)
+             When base64-decoded, produces binary/garbled data (encrypted/compressed)
+
+    Discovered country codes:
+      ID (Indonesia), KR (Korea), MY (Malaysia), BR (Brazil), FR (France),
+      RU (Russia), SG (Singapore), TR (Turkey), UA (Ukraine), AE (UAE),
+      GB (UK), SP (Sports TV), RI (TVRI)
+
+    NOTE: SP.json is the only known plain-JSON channel list. Other country
+    files appear to use encryption/base62 encoding. The encryption method
+    has not been determined.
+
+2c. Premium Channel List
+    URL    : https://duktek.online/settings/aplikasi/api/jsondata/iptv-country-premium.json
+    Method : GET
+    Status : Protected by Cloudflare (blocks automated requests)
+
+2d. Staging/Alternate Channel List
+    URL    : https://myjson.duktek.online/json
+    Method : GET
+    Note   : Used as "path_channel_list_url" - possibly for dynamic updates
+
+2e. Fallback Channel List Base
+    URL    : https://bittv.gorr.fun/
+    Method : GET
+    Note   : Used as "path_url" - generic fallback
+
+================================================================================
+3. CHANNEL DATA STRUCTURE (from SP.json)
+================================================================================
+
+Each channel in the "info" array has these fields:
+
+Field              Type        Description
+-----------------------------------------------------------------
+id                 string      Unique numeric channel ID
+name               string      Display name of the channel
+tagline            string      Subtitle/description (or update notice)
+hls                string      Stream URL (m3u8 for HLS, mpd for DASH)
+namespace          string      Internal namespace/label
+image              string      Base64 PNG data URI for channel logo
+jenis              string      Stream type: "hls", "dash", "dash-clearkey"
+premium            string      "f" = free, "t" = premium (all 77 in SP are "f")
+alpha_2_code       string      2-letter country code (e.g. "SP", "ID")
+country_name       string      Full country name (e.g. "Sports TV")
+url_license        string      Base64-encoded DRM license JSON (empty for non-DRM)
+header_iptv        string      JSON string of HTTP headers for stream request
+header_license     string      JSON string of HTTP headers for license request
+
+3a. Channel Type: "hls" (17 channels)
+    Example: "id": "503"
+    {
+      "id": "503",
+      "name": "True Premier Football 1",
+      "tagline": "True Premier Football 1",
+      "hls": "https://www.livedoomovies.com:4432/02_PremierHD1_480p/chunklist.m3u8",
+      "namespace": "True Premier Football 1",
+      "image": "data:image/png;base64,...",
+      "jenis": "hls",
+      "premium": "f",
+      "alpha_2_code": "SP",
+      "country_name": "Sports TV",
+      "url_license": "",
+      "header_iptv": "{\"Referer\":\"https://www.youdooball.com/\",\"Origin\":\"https://www.youdooball.com\",\"User-Agent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:122.0) Gecko/20100101 Firefox/122.0\"}",
+      "header_license": "{\"x-data\":\"none\"}"
+    }
+
+3b. Channel Type: "dash" (2 channels)
+    Example: "id": "60"
+    {
+      "id": "60",
+      "name": "Abu Dhabi Sports 1",
+      "hls": "https://vo-live.cdb.cdn.orange.com/Content/Channel/AbuDhabiSportsChannel1/DASH/master.mpd",
+      "jenis": "dash",
+      "premium": "f",
+      "url_license": "",                          // No DRM
+      "header_iptv": "{\"Referer\":\"none\",\"Origin\":\"none\",\"User-Agent\":\"none\"}",
+      "header_license": "{\"x-data\":\"none\"}"
+    }
+
+3c. Channel Type: "dash-clearkey" (58 channels)
+    Example: "id": "239"
+    {
+      "id": "239",
+      "name": "Sportdigital Fussball",
+      "hls": "https://dzn.starlive.workers.dev/https://dcf-fs-live-dazn-cdn.dazn.com/dash/dazn-linear-022/stream.mpd",
+      "jenis": "dash-clearkey",
+      "premium": "f",
+      "url_license": "eyJrZXlzIjpbeyJrdHkiOiJvY3QiLCJrIjoiZXJTNXJscElxbEp1VVJxUk80TW5hUSIsImtpZCI6ImlyUjNRWk1NUjJlQVVWK2FBTjdMQ2cifV0sInR5cGUiOiJ0ZW1wb3JhcnkifQ==",
+      "header_iptv": "{\"Host\":\"dzn.starlive.workers.dev\",\"Referer\":\"https://starlive.pages.dev/\",\"Origin\":\"https://starlive.pages.dev\",\"User-Agent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:121.0) Gecko/20100101 Firefox/121.0\"}",
+      "header_license": "{\"x-data\":\"none\"}"
+    }
+
+    DECODED url_license (Base64 -> JSON):
+    {
+      "keys": [
+        {
+          "kty": "oct",
+          "k": "erS5rlpIqlJuURqRO4MnaQ",       // ClearKey (base64-encoded)
+          "kid": "irR3QZMMR2eAUV+aAN7LCg"       // Key ID (base64-encoded)
+        }
+      ],
+      "type": "temporary"
+    }
+
+    This is a standard ClearKey DRM system. The ClearKey is used to decrypt
+    the DASH content. The key "k" is the actual content key, "kid" is the
+    key identifier.
+
+================================================================================
+4. PER-CHANNEL JSON ENDPOINT (INDIVIDUAL CHANNEL)
+================================================================================
+
+URL Pattern:
+  {path_url_215}{channel_id}.json
+  Example: https://raw.githubusercontent.com/movietrailersxxi-pixel/web/main/dtv/v215/SCTV.json
+
+Status: 404 NOT FOUND for all tested channel IDs (SCTV, RCTI, CNN_Indonesia)
+
+Conclusion: Individual per-channel JSON files are NOT used in v2.1.5.
+All channel data is consolidated into SP.json (and per-country JSONs).
+
+The individual channel JSON pattern may have been used in older versions
+(v213_x based on path_url_x).
+
+================================================================================
+5. COUNTRY LIST (from countrylist field)
+================================================================================
+
+The "countrylist" array in SP.json contains:
+
+Alpha-2   Alpha-3   Numeric   Name
+-----------------------------------------------------------------
+ID        IDN       360       Indonesia
+KR        KOR       410       Korea (Republic of)
+MY        MYS       458       Malaysia
+BR        BRA       76        Brazil
+FR        FRA       250       France
+RU        RUS       643       Russian Federation
+SG        SGP       702       Singapore
+TR        TUR       792       Turkey
+UA        UKR       804       Ukraine
+AE        ARE       784       United Arab Emirates
+GB        GBR       826       United Kingdom
+SP        SPT       900       Sports TV
+RI        TVR       902       TVRI
+
+NOTE: The app uses the alpha_2_code from SharedPreferences ("country" key)
+to determine which country JSON to load. For example, if country="FR",
+it fetches FR.json from {path_url_215}FR.json.
+
+================================================================================
+6. HTTP HEADER PATTERNS
+================================================================================
+
+6a. Stream Request Headers (from header_iptv field)
+    Each channel specifies its own HTTP headers as a JSON string:
+    {
+      "Referer":    "https://source.domain/",
+      "Origin":     "https://source.domain",
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:121.0) Gecko/20100101 Firefox/121.0",
+      "Host":       "stream.worker.dev"    // (optional, for worker proxies)
+    }
+
+    Common patterns:
+    - Some channels use "none" for all headers (open streams)
+    - Some channels use specific Referer/Origin headers
+    - User-Agent is sometimes randomized from a list in RC key "browsers"
+    - Host header is specified when using Cloudflare Worker proxies
+
+6b. License Request Headers (from header_license field)
+    {
+      "x-data": "none"
+    }
+    Almost all channels use {"x-data":"none"} for license headers.
+    Some may include additional headers if needed by the DRM server.
+
+6c. General Request Headers (from decompiled source code)
+    These are constructed in BitTVActivity.java:
+    - Referer : https://duktek.id/?device={deviceId}&is_genuine={flag}
+    - Origin  : https://duktek.id
+    - User-Agent: Randomly selected from a list in RC "browsers" config
+
+================================================================================
+7. DRM / LICENSE FLOW
+================================================================================
+
+7a. ClearKey DRM (58 channels in SP.json)
+    - Stream type: "dash-clearkey"
+    - HLS field contains .mpd (DASH manifest) URL
+    - url_license contains base64-encoded ClearKey JSON:
+        {"keys":[{"kty":"oct","k":"BASE64_KEY","kid":"BASE64_KID"}],"type":"temporary"}
+    - The app likely:
+        1. Fetches .mpd manifest
+        2. Extracts ContentProtection > default_KID from MPD
+        3. Uses the ClearKey (k) to decrypt the content
+        4. Passes key to MediaDrm (ClearKey plugin or ExoPlayer)
+
+7b. No DRM (2 dash + 17 hls channels)
+    - url_license is empty string
+    - Stream is played directly without decryption
+
+7c. No Widevine DRM detected
+    - All DRM channels use ClearKey (dash-clearkey)
+    - No Widevine (CENC with L1/L3) headers or patterns found
+
+================================================================================
+8. STREAM SERVERS & CDN PATTERNS
+================================================================================
+
+Observed stream URL patterns:
+
+   Pattern                                    Example
+   ------------------------------------------ ----------------------------------------
+   livedoomovies.com:4432/.../chunklist.m3u8  True Premier Football 1
+   dzn.starlive.workers.dev/https://.../*.mpd DAZN channels (via Worker proxy)
+   *.starlive.pages.dev                        Referer for DAZN channels
+   live.ll.ww.aiv-cdn.net/.../cenc.mpd        TNT Sports (BT Sport)
+   rikstv-live-scalstrm.telenorcdn.net/...    ViaSport (Norwegian)
+   ott-balancer.tvri.go.id/live/eds/.../*.m3u8 TVRI Indonesia
+   rmtv.akamaized.net/hls/live/.../master.m3u8 Real Madrid TV (Akamai)
+   live.cnnindonesia.com/livecnn/.../stream.m3u8 CNN Indonesia
+
+CDN/Proxy workers used:
+   - starlive.workers.dev -> dazn.com (DAZN proxy)
+   - livedoomovies.com:4432 -> Sports streams
+   - aiv-cdn.net -> BT/TNT Sports
+   - telenorcdn.net -> Norwegian sports
+   - tvri.go.id -> Indonesian state TV
+   - akamaized.net -> Real Madrid TV
+
+================================================================================
+9. NETWORK SECURITY CONFIG
+================================================================================
+
+File: base_config.xml
+  - Trusts only system certificates (no user certs)
+  - Uses cleartext (HTTP) traffic allowed (usesCleartextTraffic="true")
+
+File: network_security_config.xml
+  - Whitelists specific IPs/domains for cleartext (HTTP):
+    103.30.123.46
+    live.cnnindonesia.com
+    live.cnnindonesia.com.cdn1.gotv.detik.com
+    (and others)
+
+This means HTTPS interception with mitmproxy cannot work because user
+certificates are not trusted. All HTTPS traffic goes directly to servers
+with system CA validation.
+
+================================================================================
+10. APP ARCHITECTURE NOTES (from decompiled source)
+================================================================================
+
+Key Classes:
+  BitTVActivity.java    - Main activity, constructs API calls, handles streams
+  StartAppActivity.java - Splash/startup, initializes Firebase RC
+  App.java              - Application class, defines Firebase RC keys
+
+Config Initialization Flow:
+  1. App starts -> StartAppActivity
+  2. Firebase Remote Config fetched (with minimum fetch interval)
+  3. Country code read from SharedPreferences ("country" key)
+  4. Channel list URL constructed from RC values
+  5. Channel list JSON fetched and parsed
+  6. Per-channel data displayed in UI
+  7. When channel selected -> stream URL + headers loaded into ExoPlayer
+
+SharedPreferences Keys (found in MySharedPref.xml on emulator):
+  country        -> "FR" (user's selected country)
+  deviceID       -> auto-generated UUID
+  sdk_origin     -> sdk flag
+  ads_position_save -> ad position tracking
+
+================================================================================
+11. DATA FLOW SUMMARY
+================================================================================
+
+  [App Launch]
+       |
+       v
+  Firebase Remote Config (fetch URLs)
+       |
+       v
+  GET {channel_list_url}  ------------------> SP.json (or country-specific)
+       |                                          |
+       v                                          v
+  Parse channel list JSON              URL: https://cdn.jsdelivr.net/gh/...
+       |
+       v
+  For each channel:
+    1. Use "hls" field as stream URL
+    2. Apply headers from "header_iptv" JSON
+    3. If "dash-clearkey":
+       - Decode base64 "url_license"
+       - Extract ClearKey
+       - Play DASH with ClearKey decryption
+    4. If "hls":
+       - Play m3u8 directly with ExoPlayer
+       |
+       v
+  [Streaming via ExoPlayer]
+
+================================================================================
+12. CHANNEL STATISTICS (SP.json - Sports TV)
+================================================================================
+
+Total channels       : 77
+HLS channels         : 17  (22%)
+DASH-ClearKey        : 58  (75%)
+Plain DASH           : 2   (3%)
+Premium channels     : 0   (0% - all free)
+Channels with license: 58  (all dash-clearkey)
+Channels with no DRM : 19  (17 HLS + 2 plain DASH)
+
+================================================================================
+13. SAMPLE DECODED ClearKey VALUES
+================================================================================
+
+Channel: Sportdigital Fussball (ID: 239)
+  Base64 license: eyJrZXlzIjpbeyJrdHkiOiJvY3QiLCJrIjoiZXJTNXJscElxbEp1VVJxUk80TW5hUSIsImtpZCI6ImlyUjNRWk1NUjJlQVVWK2FBTjdMQ2cifV0sInR5cGUiOiJ0ZW1wb3JhcnkifQ==
+  Decoded:
+    key (k)  : erS5rlpIqlJuURqRO4MnaQ
+    key id   : irR3QZMMR2eAUV+aAN7LCg
+    type     : temporary
+
+Channel: Sportdigital Fussball 2 (ID: 511)
+  Base64 license: eyJrZXlzIjpbeyJrdHkiOiJvY3QiLCJrIjoiaHFIdGJwYktxNDZ4QUovbE1OTFBUdyIsImtpZCI6IlRwazZxTUh5bGZpNVRvNmViMjBML2cifV0sInR5cGUiOiJ0ZW1wb3JhcnkifQ==
+  Decoded:
+    key (k)  : hqHtbpBKq46xAJ/lMNLPTw
+    key id   : Tpk6qMHy1fi5To6eb20L/g
+    type     : temporary
+
+Channel: TNT Sports 4 (ID: 212)
+  Base64 license: eyJrZXlzIjpbeyJrdHkiOiJvY3QiLCJrIjoibHNYdmFVZVhNcTV6VDVZblNNR1hLUSIsImtpZCI6IjR4cGFnY3IvWFFmcUpCR2xjZnd1V1EifV0sInR5cGUiOiJ0ZW1wb3JhcnkifQ==
+  Decoded:
+    key (k)  : lsXvaUeXMq5zT5YnSMGXKQ
+    key id   : 4xpagcr/XQfqJBGlcfwuWQ
+    type     : temporary
+
+================================================================================
+14. NOTES & FINDINGS
+================================================================================
+
+- Per-channel JSON (e.g. SCTV.json) does NOT exist in v215. The individual
+  channel pattern appears to be from older v213_x builds.
+
+- ID.json (and other country files) use a double-base64 encoding with P2 prefix.
+  Decryption scheme (k0):
+    reverse → Base64.decode → new String(UTF-8) → reverse → .getBytes(UTF-8)
+    → skip non-base64 chars → Base64.decode → new String(UTF-8) → reverse
+
+  P2 mode (patch_211): Files contain PREFIX + ENCRYPTED_DATA, where the prefix
+  is patch_211_key + device_signature_hash + APK_CRC. The prefix varies by file
+  (123-180 chars). The common hash "jhmfgfdgdvcgcghf519b491aa27f56..." appears
+  in all country files as part of the prefix.
+
+  Successfully decrypted: ID (81 ch), KR (32), MY (39), BR (99), FR (30),
+  SG (33), AE (24), GB (33). RU, TR, UA return 404.
+
+  New fields found in decrypted country JSONs (not in SP.json):
+    - is_live ("t"/"f")     - is_movie ("t"/"f")
+    - fake_event ("t"/"f")  - t_stamp (unix timestamp)
+    - s_stamp (string)      - subtitle (string)
+    - New jenis values: "ts" (Transport Stream), "dash-widevine"
+
+- Premium channel list is behind Cloudflare - requires browser-like headers
+  or Cloudflare bypass to access.
+
+- ClearKey is the only DRM scheme used - no Widevine L1/L3 detected.
+
+- All channels in the Sports TV list are free (premium="f").
+  Premium channels may exist in the Cloudflare-protected premium list.
+
+- The app randomizes User-Agent from a configurable list in RC.
+
+- Stream URLs use a variety of CDNs, with some using Cloudflare Workers
+  as reverse proxies to access geo-restricted content (e.g., DAZN).
+
+================================================================================
+END OF DOCUMENT
+================================================================================
