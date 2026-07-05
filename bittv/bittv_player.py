@@ -197,12 +197,7 @@ def play(ch, cfg):
     r = test_url(url, hdrs)
     if r["alive"]:
         print(f"  STATUS: \033[92mALIVE\033[0m (HTTP {r['code']})")
-
-        c = input("  > Launch mpv? [Y/n]: ").strip().upper()
-        if c != "N":
-            play_ff(url, hdrs, ck, fp, jenis)
-        else:
-            print("  Dibatalkan.")
+        play_ff(url, hdrs, ck, fp, jenis)
     else:
         print(f"  STATUS: \033[91mDOWN\033[0m ({r['error']})")
     input("  Enter...")
@@ -224,6 +219,14 @@ def server_stream(ch, cfg):
     if not ff:
         print("  ERROR: ffmpeg tidak ditemukan!")
         return
+
+    print("  >> Testing link...")
+    r = test_url(url, hdrs)
+    if not r["alive"]:
+        print(f"  STATUS: \033[91mDOWN\033[0m ({r['error']})")
+        input("  Enter...")
+        return
+    print(f"  STATUS: \033[92mALIVE\033[0m (HTTP {r['code']})")
 
     try:
         p = input("  Port [8080]: ").strip()
@@ -362,19 +365,11 @@ def detail(ch, cfg):
             print(f"    Key ID  : {ck['kid']}")
             print(f"    Key     : {ck['key']}")
     print()
-    print("  [T] Test Link")
     print("  [P] Play")
     print("  [S] Server Stream")
     print("  [B] Back")
     c = input("  Pilih: ").strip().upper()
-    if c == "T":
-        r = test_url(ch.get("hls", ""), hdrs)
-        if r["alive"]:
-            print(f"\n  STATUS: \033[92mALIVE\033[0m (HTTP {r['code']})")
-        else:
-            print(f"\n  STATUS: \033[91mDOWN\033[0m ({r['error']})")
-        input("  Enter...")
-    elif c == "P":
+    if c == "P":
         play(ch, cfg)
     elif c == "S":
         server_stream(ch, cfg)
