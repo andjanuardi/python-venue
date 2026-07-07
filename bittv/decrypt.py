@@ -1,7 +1,7 @@
 import base64, json, os, sys, urllib.request
 
-# BASE = "https://raw.githubusercontent.com/movietrailersxxi-pixel/web/main/dtv/v215/"
-BASE = "https://raw.githubusercontent.com/movietrailersxxi-pixel/web/main/dtv/v216/"
+BASE = "https://raw.githubusercontent.com/movietrailersxxi-pixel/web/main/dtv/v215/"
+# BASE = "https://raw.githubusercontent.com/movietrailersxxi-pixel/web/main/dtv/v216-tv/"
 CACHE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
 
 def k0(data):
