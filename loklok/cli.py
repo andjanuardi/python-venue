@@ -615,45 +615,158 @@ def stream_url(mid, eid, judul, enum, category=1, detail_subs=None):
         pass
 
 def serve_stream(stream_url, sub_options, title):
-    import threading, re
+    import threading, re, base64
     import requests as req
     from http.server import HTTPServer, BaseHTTPRequestHandler
+    from urllib.parse import urljoin
 
     host = STREAM_HOST
     port = STREAM_PORT
 
-    m3u8_lines = ["#EXTM3U", "#EXT-X-VERSION:6"]
-    m3u8_lines.append('#EXT-X-STREAM-INF:BANDWIDTH=8000000')
-    m3u8_lines.append(stream_url)
-    m3u8_content = "\n".join(m3u8_lines) + "\n"
-
     req.packages.urllib3.disable_warnings()
     vtt_cache = {}
+    proxy_cache = {}
+    proxy_lock = threading.Lock()
+
+    def _b64e(url):
+        return base64.urlsafe_b64encode(url.encode()).decode().rstrip('=')
+
+    def _b64d(s):
+        pad = 4 - len(s) % 4
+        if pad != 4:
+            s += '=' * pad
+        return base64.urlsafe_b64decode(s).decode()
+
+    def _rewrite_m3u8(content, base_url):
+        lines = content.split('\n')
+        out = []
+        for line in lines:
+            s = line.strip()
+            if s and not s.startswith('#'):
+                out.append(f'/proxy/{_b64e(urljoin(base_url, s))}')
+            else:
+                out.append(line)
+        content = '\n'.join(out)
+        content = re.sub(
+            r'(URI=")([^"]+)',
+            lambda m: f'{m.group(1)}/proxy/{_b64e(urljoin(base_url, m.group(2)))}"',
+            content,
+        )
+        return content
+
+    def _fetch_proxy(url):
+        if url in proxy_cache:
+            return proxy_cache[url]
+        try:
+            r = req.get(url, verify=False, timeout=30, headers={
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+            })
+            if r.status_code != 200:
+                return None
+            ct = r.headers.get('Content-Type', '')
+            is_pl = 'mpegurl' in ct or 'M3U8' in ct or url.endswith('.m3u8')
+            if is_pl:
+                text = r.text
+                if text.startswith('\ufeff'):
+                    text = text[1:]
+                text = text.replace('\r\n', '\n').replace('\r', '\n')
+                rewritten = _rewrite_m3u8(text, url)
+                result = ('playlist', rewritten, ct or 'application/vnd.apple.mpegurl')
+                with proxy_lock:
+                    proxy_cache[url] = result
+                return result
+            return ('binary', r.content, ct or 'application/octet-stream')
+        except Exception:
+            return None
 
     class Handler(BaseHTTPRequestHandler):
         def do_GET(self):
-            if self.path == "/stream.m3u8":
+            if self.path == "/":
+                self._player()
+            elif self.path == "/stream.m3u8":
                 self._m3u8()
+            elif self.path.startswith("/proxy/"):
+                self._proxy()
             elif self.path.startswith("/sub/"):
                 self._subtitle()
             else:
                 self.send_error(404)
 
-        def _m3u8(self):
+        def _player(self):
+            tracks = ''
+            for i, (lang, _) in enumerate(sub_options):
+                code = lang.split('-')[0] if '-' in lang else lang[:2]
+                tracks += (
+                    f'      <track kind="subtitles" src="/sub/{i}.vtt"'
+                    f' srclang="{code}" label="{lang}">\n'
+                )
+            html = f'''<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{title}</title>
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+<style>
+  *{{margin:0;padding:0;box-sizing:border-box}}
+  body{{background:#000;display:flex;justify-content:center;align-items:center;min-height:100vh}}
+  video{{max-width:100%;max-height:100vh}}
+</style>
+</head>
+<body>
+<video id="v" controls autoplay>
+{tracks}</video>
+<script>
+  var v=document.getElementById('v');
+  if(Hls.isSupported()){{var h=new Hls();h.loadSource('/stream.m3u8');h.attachMedia(v);h.on(Hls.Events.MANIFEST_PARSED,function(){{v.play()}})}}
+  else if(v.canPlayType('application/vnd.apple.mpegurl')){{v.src='/stream.m3u8';v.addEventListener('loadedmetadata',function(){{v.play()}})}}
+</script>
+</body>
+</html>'''
             self.send_response(200)
-            self.send_header("Content-Type", "application/vnd.apple.mpegurl")
+            self.send_header('Content-Type', 'text/html; charset=utf-8')
             self.end_headers()
-            self.wfile.write(m3u8_content.encode())
+            self.wfile.write(html.encode('utf-8'))
+
+        def _m3u8(self):
+            result = _fetch_proxy(stream_url)
+            if result is None:
+                self.send_error(502)
+                return
+            _, content, ct = result
+            self.send_response(200)
+            self.send_header('Content-Type', ct)
+            self.send_header('Access-Control-Allow-Origin', '*')
+            self.end_headers()
+            self.wfile.write(content.encode() if isinstance(content, str) else content)
+
+        def _proxy(self):
+            try:
+                url = _b64d(self.path[len('/proxy/'):])
+            except Exception:
+                self.send_error(400)
+                return
+            result = _fetch_proxy(url)
+            if result is None:
+                self.send_error(502)
+                return
+            kind, content, ct = result
+            self.send_response(200)
+            self.send_header('Content-Type', ct)
+            self.send_header('Access-Control-Allow-Origin', '*')
+            if kind == 'binary':
+                self.send_header('Content-Length', str(len(content)))
+            self.end_headers()
+            self.wfile.write(content.encode() if isinstance(content, str) else content)
 
         def _subtitle(self):
             try:
-                idx = int(self.path.split("/")[-1].split(".")[0])
+                idx = int(self.path.split('/')[-1].split('.')[0])
                 if not (0 <= idx < len(sub_options)):
                     raise ValueError
             except (ValueError, IndexError):
                 self.send_error(404)
                 return
-
             if idx not in vtt_cache:
                 _, srt_url = sub_options[idx]
                 try:
@@ -665,18 +778,18 @@ def serve_stream(stream_url, sub_options, title):
                     if srt.startswith('\ufeff'):
                         srt = srt[1:]
                     srt = srt.replace('\r\n', '\n').replace('\r', '\n').lstrip('\n\r\t ')
-                    vtt = "WEBVTT\n\n" + re.sub(r'(\d{1,2}:\d{2}:\d{2}),(\d{3})', r'\1.\2', srt)
+                    vtt = 'WEBVTT\n\n' + re.sub(r'(\d{1,2}:\d{2}:\d{2}),(\d{3})', r'\1.\2', srt)
                     if not vtt.endswith('\n'):
                         vtt += '\n'
                     vtt_cache[idx] = vtt
                 except Exception:
                     self.send_error(502)
                     return
-
             self.send_response(200)
-            self.send_header("Content-Type", "text/vtt; charset=utf-8")
+            self.send_header('Content-Type', 'text/vtt; charset=utf-8')
+            self.send_header('Access-Control-Allow-Origin', '*')
             self.end_headers()
-            self.wfile.write(vtt_cache[idx].encode("utf-8"))
+            self.wfile.write(vtt_cache[idx].encode('utf-8'))
 
         def log_message(self, fmt, *args):
             pass
@@ -688,13 +801,15 @@ def serve_stream(stream_url, sub_options, title):
     clear()
     header("STREAM SERVER")
     print(f"  Judul : {title}")
-    print(f"  URL   : http://{host}:{port}/stream.m3u8")
+    print(f"  Player: http://{host}:{port}/")
     if sub_options:
         print()
         for i, (lang, _) in enumerate(sub_options):
             print(f"  Subtitle {lang}: http://{host}:{port}/sub/{i}.vtt")
-    print(f"\n  Buka URL di atas di VLC/mpv/IINA.")
-    print(f"  Tambahkan subtitle manual jika perlu.")
+    print()
+    import webbrowser
+    webbrowser.open(f"http://{host}:{port}/")
+    print(f"  Membuka player di browser...")
     print(f"\n  Tekan Enter untuk berhenti...")
     input()
 
