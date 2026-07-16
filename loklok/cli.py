@@ -1,5 +1,6 @@
 import json
 import sys
+import os
 import shutil
 
 from loklok_api_mobile import (
@@ -583,6 +584,8 @@ def stream_url(mid, eid, judul, enum, category=1, detail_subs=None):
                     sub_options.append((lang, su))
             for i, (lang, _) in enumerate(sub_options, 1):
                 print(f"  [{i+2}] Salin subtitle ({lang})")
+            serve_idx = len(sub_options) + 3
+            print(f"  [{serve_idx}] Serve stream (M3U8)")
             print("  [0] Kembali")
             print()
             try:
@@ -598,13 +601,60 @@ def stream_url(mid, eid, judul, enum, category=1, detail_subs=None):
                     pause()
                 elif b.isdigit():
                     bi = int(b)
-                    if 3 <= bi <= 2 + len(sub_options):
+                    if bi == serve_idx:
+                        serve_stream(url, sub_options, judul)
+                    elif 3 <= bi <= 2 + len(sub_options):
                         _, su = sub_options[bi - 3]
                         salin(su)
             except (ValueError, EOFError, KeyboardInterrupt):
                 pass
     except (ValueError, EOFError, KeyboardInterrupt):
         pass
+
+def serve_stream(stream_url, sub_options, title, port=8765):
+    import threading
+    from http.server import HTTPServer, SimpleHTTPRequestHandler
+
+    tmpdir = "/tmp/loklok"
+    os.makedirs(tmpdir, exist_ok=True)
+    m3u8_path = os.path.join(tmpdir, "stream.m3u8")
+
+    lines = ["#EXTM3U", "#EXT-X-VERSION:6"]
+    if sub_options:
+        for i, (lang, sub_url) in enumerate(sub_options):
+            abbr = "in_ID" if i == 0 else "en"
+            default = "YES" if i == 0 else "NO"
+            lines.append(f'#EXT-X-MEDIA:TYPE=SUBTITLES,GROUP-ID="subs",NAME="{lang}",DEFAULT={default},AUTOSELECT={default},LANGUAGE="{abbr}",URI="{sub_url}"')
+        lines.append(f'#EXT-X-STREAM-INF:BANDWIDTH=8000000,SUBTITLES="subs"')
+    else:
+        lines.append('#EXT-X-STREAM-INF:BANDWIDTH=8000000')
+    lines.append(stream_url)
+
+    with open(m3u8_path, "w") as f:
+        f.write("\n".join(lines) + "\n")
+
+    class Handler(SimpleHTTPRequestHandler):
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, directory=tmpdir, **kwargs)
+        def log_message(self, fmt, *args):
+            pass
+
+    server = HTTPServer(("0.0.0.0", port), Handler)
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+
+    clear()
+    header("STREAM SERVER")
+    print(f"  Judul : {title}")
+    print(f"  URL   : http://localhost:{port}/stream.m3u8")
+    print(f"\n  Buka URL di atas di VLC/mpv/IINA.")
+    print(f"\n  Tekan Enter untuk berhenti...")
+    input()
+
+    server.shutdown()
+    server.server_close()
+    os.unlink(m3u8_path)
+
 
 def salin(url):
     import subprocess
