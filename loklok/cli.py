@@ -623,15 +623,7 @@ def serve_stream(stream_url, sub_options, title):
     port = STREAM_PORT
 
     m3u8_lines = ["#EXTM3U", "#EXT-X-VERSION:6"]
-    if sub_options:
-        for i, (lang, _) in enumerate(sub_options):
-            abbr = "in_ID" if i == 0 else "en"
-            default = "YES" if i == 0 else "NO"
-            uri = f"http://{host}:{port}/sub/{i}.vtt"
-            m3u8_lines.append(f'#EXT-X-MEDIA:TYPE=SUBTITLES,GROUP-ID="subs",NAME="{lang}",DEFAULT={default},AUTOSELECT={default},LANGUAGE="{abbr}",URI="{uri}"')
-        m3u8_lines.append(f'#EXT-X-STREAM-INF:BANDWIDTH=8000000,SUBTITLES="subs"')
-    else:
-        m3u8_lines.append('#EXT-X-STREAM-INF:BANDWIDTH=8000000')
+    m3u8_lines.append('#EXT-X-STREAM-INF:BANDWIDTH=8000000')
     m3u8_lines.append(stream_url)
     m3u8_content = "\n".join(m3u8_lines) + "\n"
 
@@ -669,7 +661,13 @@ def serve_stream(stream_url, sub_options, title):
                     if r.status_code != 200:
                         self.send_error(502)
                         return
-                    vtt = "WEBVTT\n\n" + re.sub(r'(\d{2}:\d{2}:\d{2}),(\d{3})', r'\1.\2', r.text)
+                    srt = r.text
+                    if srt.startswith('\ufeff'):
+                        srt = srt[1:]
+                    srt = srt.replace('\r\n', '\n').replace('\r', '\n').lstrip('\n\r\t ')
+                    vtt = "WEBVTT\n\n" + re.sub(r'(\d{1,2}:\d{2}:\d{2}),(\d{3})', r'\1.\2', srt)
+                    if not vtt.endswith('\n'):
+                        vtt += '\n'
                     vtt_cache[idx] = vtt
                 except Exception:
                     self.send_error(502)
@@ -691,7 +689,12 @@ def serve_stream(stream_url, sub_options, title):
     header("STREAM SERVER")
     print(f"  Judul : {title}")
     print(f"  URL   : http://{host}:{port}/stream.m3u8")
+    if sub_options:
+        print()
+        for i, (lang, _) in enumerate(sub_options):
+            print(f"  Subtitle {lang}: http://{host}:{port}/sub/{i}.vtt")
     print(f"\n  Buka URL di atas di VLC/mpv/IINA.")
+    print(f"  Tambahkan subtitle manual jika perlu.")
     print(f"\n  Tekan Enter untuk berhenti...")
     input()
 
