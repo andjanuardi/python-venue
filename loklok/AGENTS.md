@@ -26,6 +26,7 @@ python cookie_gen.py --email x --pwd y --format all --no-header  # all formats, 
 - **Login**: field name is `pwd`, not `password`. Session stored in module-level `SESSION` dict.
 - **Scanning**: `scan_from_home()` fetches IDs across 6 navigation categories (1, 2, 3, 119, 120, 165) with H5 client type, then fetches details via ANDROID client. Uses `ThreadPoolExecutor(max_workers=15)`.
 - **Stream qualities**: `GROOT_HD` (1080P), `GROOT_SD` (720P), `GROOT_LD` (540P), `GROOT_FD` (360P). Fetched in parallel via `get_all_qualities()` using iOS play info endpoint with 4 parallel workers.
+- **Subtitles**: Extracted from `episodeVo[index].subtitlingList` in movie detail response (`/cms/web/movieDrama/get`). Prioritized: **Bahasa Indonesia** (`in_ID`) first, **English** (`en`) second. Fallback to `subtitlingList` from playInfo if detail is empty. Subtitle CDN: `subtitles.netpop.app`.
 - **Preview vs full**: Free preview is 15–300s. Full episode requires logged-in VIP subscription.
 - **Ranking**: endpoint `/cms/h5/recommendRanking/more/v3` broken server-side (B0001).
 - **Search**: `/cms/v2/h5/search/searchWithKeyWord` always returns empty — search relies on local `movie_db.json`.

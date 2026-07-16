@@ -503,7 +503,8 @@ def detail_movie(cid):
                 return
             if 1 <= c <= len(eps):
                 ep = eps[c-1]
-                stream_url(cid, ep.get("id"), judul, ep.get("seriesNo", c), cat)
+                stream_url(cid, ep.get("id"), judul, ep.get("seriesNo", c), cat,
+                           detail_subs=ep.get("subtitlingList") or [])
         except (ValueError, EOFError, KeyboardInterrupt):
             return
 
@@ -514,7 +515,7 @@ QUALITY_MAP = {
     "GROOT_FD": ("360P", 3),
 }
 
-def stream_url(mid, eid, judul, enum, category=1):
+def stream_url(mid, eid, judul, enum, category=1, detail_subs=None):
     if not eid:
         print("\n  Episode ID tidak ditemukan.")
         pause()
@@ -557,31 +558,29 @@ def stream_url(mid, eid, judul, enum, category=1):
         if a == 0:
             return
         if 1 <= a <= len(urls):
-            label, url, subs = urls[a-1][:3]
+            label, url, play_subs = urls[a-1][:3]
             clear()
             header(f"{judul} — {label}")
             print(f"  URL: {url}\n")
-            if subs:
+            src = detail_subs or play_subs
+            idn = [s for s in src if isinstance(s, dict) and s.get("languageAbbr") == "in_ID" and s.get("subtitlingUrl")]
+            eng = [s for s in src if isinstance(s, dict) and s.get("languageAbbr") == "en" and s.get("subtitlingUrl")]
+            shown = idn + eng
+            if shown:
                 print("  Subtitle:")
-                for s in subs:
-                    if isinstance(s, dict):
-                        lang = s.get("language") or s.get("languageAbbr") or ""
-                        su = s.get("subtitlingUrl") or ""
-                        if su:
-                            print(f"    {lang}: {su}")
-                    elif isinstance(s, str):
-                        print(f"    {s}")
+                for s in shown:
+                    lang = s.get("language") or s.get("languageAbbr") or ""
+                    su = s.get("subtitlingUrl") or ""
+                    print(f"    {lang}: {su}")
                 print()
             print("  [1] Salin URL stream")
             print("  [2] Buka di browser")
             sub_options = []
-            if subs:
-                for i, s in enumerate(subs):
-                    if isinstance(s, dict):
-                        su = s.get("subtitlingUrl") or ""
-                        if su:
-                            lang = s.get("language") or s.get("languageAbbr") or f"Sub {i+1}"
-                            sub_options.append((lang, su))
+            for s in shown:
+                su = s.get("subtitlingUrl") or ""
+                if su:
+                    lang = s.get("language") or s.get("languageAbbr") or "?"
+                    sub_options.append((lang, su))
             for i, (lang, _) in enumerate(sub_options, 1):
                 print(f"  [{i+2}] Salin subtitle ({lang})")
             print("  [0] Kembali")

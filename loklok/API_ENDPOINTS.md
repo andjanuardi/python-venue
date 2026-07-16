@@ -1152,11 +1152,17 @@ RiHOMvgC2si1VqrgaQIDAQAB
 : JS:      parameter dari caller (Vue komponen) → `e=>e.data||{`
 : Note:    Album. items: [].
 
+### `GET /cms/web/movieDrama/get`
+: Params:  `id` (int, movie/drama ID), `category` (int, 0/1)
+: Body:    none
+: Response: `{"code":"00000","data":{"episodeVo":[{"subtitlingList":[...]}]}}`
+: Note:    **Sumber utama subtitle.** Setiap item `episodeVo[]` memiliki `subtitlingList[]`. Didokumentasikan dari proyek filmhot (archived) dan verifikasi langsung. Subtitle di-cache di CDN `subtitles.netpop.app`.
+
 ### `GET /cms/web/h5/movieDrama/getPlayInfo`
 : Params:  `id` (int, movie/drama ID), `episodeId` (int), `category` (int, 0/1)
 : Body:    none
 : Response: `{"code":"00000","data":{"mediaUrl","totalDuration","subtitlingList":[...],"definitionList":[...],"currentDefinition":"GROOT_FD","freeDuration":300}}`
-: Note:    Play info via H5 client. Return **preview-only** (15s, freeDuration 300s, size kecil, CDN preview). `subtitlingList` berisi daftar subtitle.
+: Note:    Play info via H5 client. Return **preview-only** (15s, freeDuration 300s, size kecil, CDN preview). `subtitlingList` berisi daftar subtitle (fallback jika dari detail kosong).
 
 ### `GET /cms/web/ios_h5/movieDrama/getPlayInfo`
 : Params:  `id` (int), `episodeId` (int), `category` (int, 0/1), `definition` (string, optional: GROOT_HD/SD/LD/FD)
@@ -1165,11 +1171,13 @@ RiHOMvgC2si1VqrgaQIDAQAB
 : JS:      `fetchGetPlayInfoIos=e=>request.get("/cms/web/ios_h5/movieDrama/getPlayInfo",e)`
 : Note:    Play info via iOS endpoint. Return **full episode** (durasi penuh, size besar, CDN play). `subtitlingList` mungkin kosong jika tanpa login.
 
-**Response field `subtitlingList[]` (dari JS bundle):**
+**Response field `subtitlingList[]`:**
 : Setiap item memiliki struktur:
-: - `subtitlingUrl` (string) — URL file VTT subtitle
-: - `language` (string) — Nama bahasa display (e.g., "English")
-: - `languageAbbr` (string) — Kode bahasa (e.g., "en", "id")
+: - `subtitlingUrl` (string) — URL file subtitle (format SRT/VTT, CDN `subtitles.netpop.app`)
+: - `language` (string) — Nama bahasa display (e.g., "English", "Bahasa Indonesia")
+: - `languageAbbr` (string) — Kode bahasa (e.g., "en", "in_ID", "vi", "zh_CN")
+: - `translateType` (int) — 0 = original/manual, 1 = auto-translate
+: Sumber: `episodeVo[index].subtitlingList` dari `/cms/web/movieDrama/get` (primary), fallback ke playInfo. CLI prioritaskan `in_ID` > `en`, skip sisanya.
 
 **Response field `definitionList[]`:**
 : Setiap item:
