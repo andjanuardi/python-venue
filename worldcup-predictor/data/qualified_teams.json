@@ -1,0 +1,218 @@
+[
+  {
+    "name": "Australia",
+    "confederation": "AFC"
+  },
+  {
+    "name": "Iran",
+    "confederation": "AFC"
+  },
+  {
+    "name": "Iraq",
+    "confederation": "AFC"
+  },
+  {
+    "name": "Japan",
+    "confederation": "AFC"
+  },
+  {
+    "name": "Jordan",
+    "confederation": "AFC"
+  },
+  {
+    "name": "Qatar",
+    "confederation": "AFC"
+  },
+  {
+    "name": "Saudi Arabia",
+    "confederation": "AFC"
+  },
+  {
+    "name": "South Korea",
+    "confederation": "AFC"
+  },
+  {
+    "name": "Uzbekistan",
+    "confederation": "AFC"
+  },
+  {
+    "name": "Algeria",
+    "confederation": "CAF"
+  },
+  {
+    "name": "Cape Verde",
+    "confederation": "CAF"
+  },
+  {
+    "name": "DR Congo",
+    "confederation": "CAF"
+  },
+  {
+    "name": "Egypt",
+    "confederation": "CAF"
+  },
+  {
+    "name": "Ghana",
+    "confederation": "CAF"
+  },
+  {
+    "name": "Ivory Coast",
+    "confederation": "CAF"
+  },
+  {
+    "name": "Morocco",
+    "confederation": "CAF"
+  },
+  {
+    "name": "Senegal",
+    "confederation": "CAF"
+  },
+  {
+    "name": "South Africa",
+    "confederation": "CAF"
+  },
+  {
+    "name": "Tunisia",
+    "confederation": "CAF"
+  },
+  {
+    "name": "Canada",
+    "confederation": "CONCACAF"
+  },
+  {
+    "name": "Curaçao",
+    "confederation": "CONCACAF"
+  },
+  {
+    "name": "Haiti",
+    "confederation": "CONCACAF"
+  },
+  {
+    "name": "Mexico",
+    "confederation": "CONCACAF"
+  },
+  {
+    "name": "Panama",
+    "confederation": "CONCACAF"
+  },
+  {
+    "name": "United States",
+    "confederation": "UEFA"
+  },
+  {
+    "name": "Argentina",
+    "confederation": "CONMEBOL"
+  },
+  {
+    "name": "Brazil",
+    "confederation": "CONMEBOL"
+  },
+  {
+    "name": "Colombia",
+    "confederation": "CONMEBOL"
+  },
+  {
+    "name": "Ecuador",
+    "confederation": "CONMEBOL"
+  },
+  {
+    "name": "Paraguay",
+    "confederation": "CONMEBOL"
+  },
+  {
+    "name": "Uruguay",
+    "confederation": "CONMEBOL"
+  },
+  {
+    "name": "New Zealand",
+    "confederation": "OFC"
+  },
+  {
+    "name": "Austria",
+    "confederation": "UEFA"
+  },
+  {
+    "name": "Belgium",
+    "confederation": "UEFA"
+  },
+  {
+    "name": "Bosnia and Herzegovina",
+    "confederation": "UEFA"
+  },
+  {
+    "name": "Croatia",
+    "confederation": "UEFA"
+  },
+  {
+    "name": "Czech Republic",
+    "confederation": "UEFA"
+  },
+  {
+    "name": "England",
+    "confederation": "UEFA"
+  },
+  {
+    "name": "France",
+    "confederation": "UEFA"
+  },
+  {
+    "name": "Germany",
+    "confederation": "UEFA"
+  },
+  {
+    "name": "Netherlands",
+    "confederation": "UEFA"
+  },
+  {
+    "name": "Norway",
+    "confederation": "UEFA"
+  },
+  {
+    "name": "Portugal",
+    "confederation": "UEFA"
+  },
+  {
+    "name": "Scotland",
+    "confederation": "UEFA"
+  },
+  {
+    "name": "Spain",
+    "confederation": "UEFA"
+  },
+  {
+    "name": "Sweden",
+    "confederation": "UEFA"
+  },
+  {
+    "name": "Switzerland",
+    "confederation": "UEFA"
+  },
+  {
+    "name": "Turkey",
+    "confederation": "UEFA"
+  },
+  {
+    "name": "UEFA Path A",
+    "confederation": "UEFA"
+  },
+  {
+    "name": "UEFA Path B",
+    "confederation": "UEFA"
+  },
+  {
+    "name": "UEFA Path C",
+    "confederation": "UEFA"
+  },
+  {
+    "name": "UEFA Path D",
+    "confederation": "UEFA"
+  },
+  {
+    "name": "IC Path 1",
+    "confederation": "UEFA"
+  },
+  {
+    "name": "IC Path 2",
+    "confederation": "UEFA"
+  }
+]

@@ -1,0 +1,277 @@
+[
+  {
+    "name": "Brazil",
+    "rank": 1,
+    "points": 0
+  },
+  {
+    "name": "Spain",
+    "rank": 2,
+    "points": 0
+  },
+  {
+    "name": "Argentina",
+    "rank": 3,
+    "points": 0
+  },
+  {
+    "name": "Belgium",
+    "rank": 4,
+    "points": 0
+  },
+  {
+    "name": "England",
+    "rank": 4,
+    "points": 1800
+  },
+  {
+    "name": "Germany",
+    "rank": 5,
+    "points": 0
+  },
+  {
+    "name": "France",
+    "rank": 6,
+    "points": 0
+  },
+  {
+    "name": "Portugal",
+    "rank": 6,
+    "points": 1760
+  },
+  {
+    "name": "Italy",
+    "rank": 7,
+    "points": 0
+  },
+  {
+    "name": "Netherlands",
+    "rank": 8,
+    "points": 0
+  },
+  {
+    "name": "Croatia",
+    "rank": 11,
+    "points": 1700
+  },
+  {
+    "name": "Uruguay",
+    "rank": 12,
+    "points": 1680
+  },
+  {
+    "name": "Colombia",
+    "rank": 13,
+    "points": 1660
+  },
+  {
+    "name": "Morocco",
+    "rank": 14,
+    "points": 1650
+  },
+  {
+    "name": "Switzerland",
+    "rank": 15,
+    "points": 1640
+  },
+  {
+    "name": "Denmark",
+    "rank": 16,
+    "points": 1630
+  },
+  {
+    "name": "Japan",
+    "rank": 17,
+    "points": 1620
+  },
+  {
+    "name": "USA",
+    "rank": 18,
+    "points": 1610
+  },
+  {
+    "name": "Mexico",
+    "rank": 19,
+    "points": 1600
+  },
+  {
+    "name": "FIFA World Cup",
+    "rank": 20,
+    "points": 0
+  },
+  {
+    "name": "Senegal",
+    "rank": 20,
+    "points": 1590
+  },
+  {
+    "name": "UEFA European Championship",
+    "rank": 21,
+    "points": 0
+  },
+  {
+    "name": "Austria",
+    "rank": 21,
+    "points": 1580
+  },
+  {
+    "name": "Serbia",
+    "rank": 22,
+    "points": 1570
+  },
+  {
+    "name": "Africa Cup of Nations",
+    "rank": 23,
+    "points": 0
+  },
+  {
+    "name": "AFC Asian Cup",
+    "rank": 23,
+    "points": 0
+  },
+  {
+    "name": "CONCACAF Gold Cup",
+    "rank": 23,
+    "points": 0
+  },
+  {
+    "name": "OFC Nations Cup",
+    "rank": 23,
+    "points": 0
+  },
+  {
+    "name": "CONMEBOL Copa América",
+    "rank": 23,
+    "points": 0
+  },
+  {
+    "name": "Poland",
+    "rank": 23,
+    "points": 1560
+  },
+  {
+    "name": "Ukraine",
+    "rank": 24,
+    "points": 1550
+  },
+  {
+    "name": "Ecuador",
+    "rank": 25,
+    "points": 1540
+  },
+  {
+    "name": "Nigeria",
+    "rank": 26,
+    "points": 1530
+  },
+  {
+    "name": "Egypt",
+    "rank": 27,
+    "points": 1520
+  },
+  {
+    "name": "Tunisia",
+    "rank": 28,
+    "points": 1510
+  },
+  {
+    "name": "South Korea",
+    "rank": 29,
+    "points": 1500
+  },
+  {
+    "name": "Australia",
+    "rank": 30,
+    "points": 1490
+  },
+  {
+    "name": "Iran",
+    "rank": 31,
+    "points": 1480
+  },
+  {
+    "name": "Algeria",
+    "rank": 32,
+    "points": 1470
+  },
+  {
+    "name": "Cameroon",
+    "rank": 33,
+    "points": 1460
+  },
+  {
+    "name": "Canada",
+    "rank": 34,
+    "points": 1450
+  },
+  {
+    "name": "Turkey",
+    "rank": 35,
+    "points": 1440
+  },
+  {
+    "name": "Costa Rica",
+    "rank": 36,
+    "points": 1430
+  },
+  {
+    "name": "Sweden",
+    "rank": 37,
+    "points": 1420
+  },
+  {
+    "name": "Peru",
+    "rank": 38,
+    "points": 1410
+  },
+  {
+    "name": "Chile",
+    "rank": 39,
+    "points": 1400
+  },
+  {
+    "name": "Saudi Arabia",
+    "rank": 40,
+    "points": 1390
+  },
+  {
+    "name": "Ghana",
+    "rank": 41,
+    "points": 1380
+  },
+  {
+    "name": "Ivory Coast",
+    "rank": 42,
+    "points": 1370
+  },
+  {
+    "name": "Paraguay",
+    "rank": 43,
+    "points": 1360
+  },
+  {
+    "name": "Qatar",
+    "rank": 44,
+    "points": 1350
+  },
+  {
+    "name": "Panama",
+    "rank": 45,
+    "points": 1340
+  },
+  {
+    "name": "Jamaica",
+    "rank": 46,
+    "points": 1330
+  },
+  {
+    "name": "New Zealand",
+    "rank": 47,
+    "points": 1320
+  },
+  {
+    "name": "Iraq",
+    "rank": 48,
+    "points": 1310
+  }
+]

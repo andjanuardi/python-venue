@@ -1,0 +1,422 @@
+[
+  {
+    "name": "Brazil",
+    "appearances": 23,
+    "best_result": "23"
+  },
+  {
+    "name": "Germany",
+    "appearances": 21,
+    "best_result": "19"
+  },
+  {
+    "name": "Argentina",
+    "appearances": 19,
+    "best_result": "14"
+  },
+  {
+    "name": "Italy",
+    "appearances": 18,
+    "best_result": "14"
+  },
+  {
+    "name": "Mexico",
+    "appearances": 18,
+    "best_result": "9"
+  },
+  {
+    "name": "Spain",
+    "appearances": 17,
+    "best_result": "13"
+  },
+  {
+    "name": "England",
+    "appearances": 17,
+    "best_result": "8"
+  },
+  {
+    "name": "France",
+    "appearances": 17,
+    "best_result": "8"
+  },
+  {
+    "name": "Belgium",
+    "appearances": 15,
+    "best_result": "6"
+  },
+  {
+    "name": "Uruguay",
+    "appearances": 15,
+    "best_result": "5"
+  },
+  {
+    "name": "Switzerland",
+    "appearances": 13,
+    "best_result": "6"
+  },
+  {
+    "name": "Sweden",
+    "appearances": 13,
+    "best_result": "3"
+  },
+  {
+    "name": "Serbia",
+    "appearances": 13,
+    "best_result": "4"
+  },
+  {
+    "name": "South Korea",
+    "appearances": 12,
+    "best_result": "11"
+  },
+  {
+    "name": "United States",
+    "appearances": 12,
+    "best_result": "7"
+  },
+  {
+    "name": "Netherlands",
+    "appearances": 12,
+    "best_result": "3"
+  },
+  {
+    "name": "Russia",
+    "appearances": 11,
+    "best_result": "4"
+  },
+  {
+    "name": "Czech Republic",
+    "appearances": 10,
+    "best_result": "3"
+  },
+  {
+    "name": "Portugal",
+    "appearances": 9,
+    "best_result": "7"
+  },
+  {
+    "name": "Scotland",
+    "appearances": 9,
+    "best_result": "5"
+  },
+  {
+    "name": "Paraguay",
+    "appearances": 9,
+    "best_result": "4"
+  },
+  {
+    "name": "Hungary",
+    "appearances": 9,
+    "best_result": "4"
+  },
+  {
+    "name": "Poland",
+    "appearances": 9,
+    "best_result": "4"
+  },
+  {
+    "name": "Slovakia",
+    "appearances": 9,
+    "best_result": "3"
+  },
+  {
+    "name": "Chile",
+    "appearances": 9,
+    "best_result": "2"
+  },
+  {
+    "name": "Japan",
+    "appearances": 8,
+    "best_result": "8"
+  },
+  {
+    "name": "Cameroon",
+    "appearances": 8,
+    "best_result": "4"
+  },
+  {
+    "name": "Austria",
+    "appearances": 8,
+    "best_result": "2"
+  },
+  {
+    "name": "Australia",
+    "appearances": 7,
+    "best_result": "6"
+  },
+  {
+    "name": "Croatia",
+    "appearances": 7,
+    "best_result": "4"
+  },
+  {
+    "name": "Iran",
+    "appearances": 7,
+    "best_result": "4"
+  },
+  {
+    "name": "Saudi Arabia",
+    "appearances": 7,
+    "best_result": "4"
+  },
+  {
+    "name": "Bulgaria",
+    "appearances": 7,
+    "best_result": "4"
+  },
+  {
+    "name": "Morocco",
+    "appearances": 7,
+    "best_result": "3"
+  },
+  {
+    "name": "Tunisia",
+    "appearances": 7,
+    "best_result": "3"
+  },
+  {
+    "name": "Colombia",
+    "appearances": 7,
+    "best_result": "3"
+  },
+  {
+    "name": "Romania",
+    "appearances": 7,
+    "best_result": "3"
+  },
+  {
+    "name": "Costa Rica",
+    "appearances": 6,
+    "best_result": "3"
+  },
+  {
+    "name": "Nigeria",
+    "appearances": 6,
+    "best_result": "3"
+  },
+  {
+    "name": "Denmark",
+    "appearances": 6,
+    "best_result": "2"
+  },
+  {
+    "name": "Ghana",
+    "appearances": 5,
+    "best_result": "3"
+  },
+  {
+    "name": "Ecuador",
+    "appearances": 5,
+    "best_result": "2"
+  },
+  {
+    "name": "Algeria",
+    "appearances": 5,
+    "best_result": "2"
+  },
+  {
+    "name": "Peru",
+    "appearances": 5,
+    "best_result": "2"
+  },
+  {
+    "name": "Senegal",
+    "appearances": 4,
+    "best_result": "3"
+  },
+  {
+    "name": "Ivory Coast",
+    "appearances": 4,
+    "best_result": "3"
+  },
+  {
+    "name": "Norway",
+    "appearances": 4,
+    "best_result": "2"
+  },
+  {
+    "name": "South Africa",
+    "appearances": 4,
+    "best_result": "2"
+  },
+  {
+    "name": "Egypt",
+    "appearances": 4,
+    "best_result": "1"
+  },
+  {
+    "name": "Turkey",
+    "appearances": 3,
+    "best_result": "1"
+  },
+  {
+    "name": "Canada",
+    "appearances": 3,
+    "best_result": "2"
+  },
+  {
+    "name": "Northern Ireland",
+    "appearances": 3,
+    "best_result": "2"
+  },
+  {
+    "name": "Honduras",
+    "appearances": 3,
+    "best_result": "2"
+  },
+  {
+    "name": "Republic of Ireland",
+    "appearances": 3,
+    "best_result": "2"
+  },
+  {
+    "name": "Greece",
+    "appearances": 3,
+    "best_result": "2"
+  },
+  {
+    "name": "New Zealand",
+    "appearances": 3,
+    "best_result": "1"
+  },
+  {
+    "name": "Bolivia",
+    "appearances": 3,
+    "best_result": "1"
+  },
+  {
+    "name": "DR Congo",
+    "appearances": 2,
+    "best_result": "2"
+  },
+  {
+    "name": "Qatar",
+    "appearances": 2,
+    "best_result": "2"
+  },
+  {
+    "name": "Haiti",
+    "appearances": 2,
+    "best_result": "1"
+  },
+  {
+    "name": "Bosnia and Herzegovina",
+    "appearances": 2,
+    "best_result": "1"
+  },
+  {
+    "name": "Panama",
+    "appearances": 2,
+    "best_result": "1"
+  },
+  {
+    "name": "Iraq",
+    "appearances": 2,
+    "best_result": "1"
+  },
+  {
+    "name": "Wales",
+    "appearances": 2,
+    "best_result": "1"
+  },
+  {
+    "name": "North Korea",
+    "appearances": 2,
+    "best_result": "1"
+  },
+  {
+    "name": "El Salvador",
+    "appearances": 2,
+    "best_result": "1"
+  },
+  {
+    "name": "Slovenia",
+    "appearances": 2,
+    "best_result": "1"
+  },
+  {
+    "name": "Cuba",
+    "appearances": 1,
+    "best_result": "1"
+  },
+  {
+    "name": "Indonesia",
+    "appearances": 1,
+    "best_result": "1"
+  },
+  {
+    "name": "Israel",
+    "appearances": 1,
+    "best_result": "1"
+  },
+  {
+    "name": "East Germany",
+    "appearances": 1,
+    "best_result": "1"
+  },
+  {
+    "name": "Kuwait",
+    "appearances": 1,
+    "best_result": "1"
+  },
+  {
+    "name": "United Arab Emirates",
+    "appearances": 1,
+    "best_result": "1"
+  },
+  {
+    "name": "Jamaica",
+    "appearances": 1,
+    "best_result": "1"
+  },
+  {
+    "name": "China",
+    "appearances": 1,
+    "best_result": "1"
+  },
+  {
+    "name": "Angola",
+    "appearances": 1,
+    "best_result": "1"
+  },
+  {
+    "name": "Togo",
+    "appearances": 1,
+    "best_result": "1"
+  },
+  {
+    "name": "Trinidad and Tobago",
+    "appearances": 1,
+    "best_result": "1"
+  },
+  {
+    "name": "Ukraine",
+    "appearances": 1,
+    "best_result": "1"
+  },
+  {
+    "name": "Iceland",
+    "appearances": 1,
+    "best_result": "1"
+  },
+  {
+    "name": "Cape Verde",
+    "appearances": 1,
+    "best_result": "1"
+  },
+  {
+    "name": "Curaçao",
+    "appearances": 1,
+    "best_result": "1"
+  },
+  {
+    "name": "Jordan",
+    "appearances": 1,
+    "best_result": "1"
+  },
+  {
+    "name": "Uzbekistan",
+    "appearances": 1,
+    "best_result": "1"
+  }
+]

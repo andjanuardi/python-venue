@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>World Cup 2026 Prediction</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #0f1923;
+    color: #e0e0e0;
+    line-height: 1.6;
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
+  header {
+    text-align: center; padding: 40px 0 30px;
+    border-bottom: 2px solid #ffd70033;
+  }
+  header h1 { font-size: 2.5em; color: #ffd700; margin-bottom: 5px; }
+  header .subtitle { color: #888; font-size: 0.95em; }
+  .champion-box {
+    background: linear-gradient(135deg, #1a2a3a, #2a1a1a);
+    border: 2px solid #ffd700;
+    border-radius: 12px; padding: 25px; text-align: center;
+    margin: 25px 0;
+  }
+  .champion-box .label { color: #ffd700; font-size: 0.9em; text-transform: uppercase; letter-spacing: 3px; }
+  .champion-box .team-name { font-size: 2.8em; font-weight: 800; color: #fff; margin: 5px 0; }
+  .champion-box .probability { color: #ffd700; font-size: 1.3em; }
+  .runner-up { text-align: center; color: #aaa; margin-bottom: 30px; font-size: 0.95em; }
+  .runner-up span { color: #ffd700; }
+  section { margin: 30px 0; }
+  section h2 {
+    font-size: 1.4em; color: #ffd700; margin-bottom: 15px;
+    padding-bottom: 5px; border-bottom: 1px solid #333;
+  }
+  .chart-container {
+    background: #1a2530; border-radius: 10px; padding: 15px;
+    margin: 20px 0; text-align: center;
+  }
+  .chart-container img { max-width: 100%; height: auto; border-radius: 6px; }
+  table {
+    width: 100%; border-collapse: collapse; margin: 10px 0;
+    font-size: 0.9em;
+  }
+  th {
+    background: #1a2a3a; color: #ffd700; padding: 10px 8px;
+    text-align: left; font-weight: 600;
+  }
+  td { padding: 8px; border-bottom: 1px solid #1a2530; }
+  tr:hover td { background: #1a2530; }
+  .rank { color: #666; font-weight: 700; width: 30px; }
+  .team-name-cell { font-weight: 600; }
+  .conf-badge {
+    display: inline-block; padding: 1px 8px; border-radius: 4px;
+    font-size: 0.75em; font-weight: 600;
+  }
+  .conf-UEFA { background: #2196F3; color: #fff; }
+  .conf-CONMEBOL { background: #4CAF50; color: #fff; }
+  .conf-CONCACAF { background: #FF9800; color: #fff; }
+  .conf-CAF { background: #E91E63; color: #fff; }
+  .conf-AFC { background: #9C27B0; color: #fff; }
+  .conf-OFC { background: #00BCD4; color: #fff; }
+  .prob-text { font-weight: 600; color: #ffd700; }
+  .gold { color: #ffd700; }
+  .silver { color: #c0c0c0; }
+  .group-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+  .group-card { background: #1a2530; border-radius: 8px; padding: 12px; }
+  .group-card h3 { color: #ffd700; margin-bottom: 8px; font-size: 1.1em; }
+  .group-card table { margin: 0; font-size: 0.8em; }
+  .group-card th { padding: 4px 6px; font-size: 0.85em; }
+  .group-card td { padding: 3px 6px; }
+  .badge-qual { color: #4CAF50; font-size: 0.75em; }
+  .badge-third { color: #FF9800; font-size: 0.75em; }
+  .bracket-round { margin: 15px 0; }
+  .bracket-round h3 { color: #ffd700; margin-bottom: 8px; }
+  .result-win { color: #4CAF50; font-weight: 700; }
+  .result-pending { color: #888; }
+  footer { text-align: center; padding: 30px; color: #555; font-size: 0.8em; }
+  @media (max-width: 768px) {
+    header h1 { font-size: 1.8em; }
+    .champion-box .team-name { font-size: 1.8em; }
+    table { font-size: 0.8em; }
+    .group-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>FIFA World Cup 2026</h1>
+    <div class="subtitle">
+      {% if is_live %}Live Prediction (Real Results + Remaining Knockout){% else %}Monte Carlo Prediction{% endif %}
+      • Elo Rating System • {{ total_simulations }} Simulations
+    </div>
+    <div class="subtitle">Generated: {{ generated_at }}</div>
+  </header>
+
+  <div class="champion-box">
+    <div class="label">Predicted Champion</div>
+    <div class="team-name">{{ winner }}</div>
+    <div class="probability">{{ "%.1f"|format(top20[0].win_pct if top20 else 0) }}% win probability</div>
+  </div>
+
+  <div class="runner-up">
+    Runner-up: <span>{{ runner_up }}</span>
+  </div>
+
+  {% if is_live and group_tables %}
+  <section>
+    <h2>Group Standings (Actual)</h2>
+    <div class="group-grid">
+      {% for group in group_tables %}
+      <div class="group-card">
+        <h3>Group {{ group.letter }}</h3>
+        <table>
+          <thead>
+            <tr><th>#</th><th>Team</th><th>Pts</th><th>W</th><th>D</th><th>L</th><th>GD</th></tr>
+          </thead>
+          <tbody>
+            {% for s in group.standings %}
+            <tr>
+              <td>{{ loop.index }}</td>
+              <td>
+                {{ s.team }}
+                {% if loop.index <= 2 %}<span class="badge-qual">Q</span>{% endif %}
+              </td>
+              <td>{{ s.pts }}</td><td>{{ s.w }}</td><td>{{ s.d }}</td><td>{{ s.l }}</td>
+              <td>{{ s.gd }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+  {% if is_live and bracket_rounds %}
+  <section>
+    <h2>Knockout Bracket</h2>
+    {% for round in bracket_rounds %}
+    <div class="bracket-round">
+      <h3>{{ round.name }}</h3>
+      <table>
+        <thead><tr><th>Match</th><th>Team A</th><th>Score</th><th>Team B</th><th>Winner</th></tr></thead>
+        <tbody>
+          {% for m in round.matches %}
+          <tr>
+            <td>{{ m.match_id }}</td>
+            <td>{{ m.team_a if m.team_a else 'TBD' }}</td>
+            <td>
+              {% if m.score_a is not none and m.score_b is not none %}
+                {{ m.score_a }} - {{ m.score_b }}
+              {% else %}
+                ? - ?
+              {% endif %}
+            </td>
+            <td>{{ m.team_b if m.team_b else 'TBD' }}</td>
+            <td>
+              {% if m.winner %}
+                <span class="result-win">{{ m.winner }}</span>
+              {% else %}
+                <span class="result-pending">Pending</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% endfor %}
+  </section>
+  {% endif %}
+
+  <section>
+    <h2>Win Probability (Top 20)</h2>
+    <div class="chart-container">
+      <img src="data:image/png;base64,{{ chart_top15 }}" alt="Top Favorites">
+    </div>
+  </section>
+
+  <section>
+    <h2>Probability by Confederation</h2>
+    <div class="chart-container">
+      <img src="data:image/png;base64,{{ chart_conf }}" alt="By Confederation">
+    </div>
+  </section>
+
+  <section>
+    <h2>Stage Advancement (Top 8)</h2>
+    <div class="chart-container">
+      <img src="data:image/png;base64,{{ chart_stage }}" alt="Stage Advancement">
+    </div>
+  </section>
+
+  <section>
+    <h2>Team Rankings</h2>
+    <table>
+      <thead>
+        <tr><th>#</th><th>Team</th><th>Conf.</th><th>Win %</th><th>Final</th><th>SF</th><th>QF</th></tr>
+      </thead>
+      <tbody>
+        {% for team in top20 %}
+        <tr>
+          <td class="rank">{{ team.rank }}</td>
+          <td class="team-name-cell">{{ team.name }}</td>
+          <td><span class="conf-badge conf-{{ team.confederation }}">{{ team.confederation }}</span></td>
+          <td class="prob-text">{{ "%.1f"|format(team.win_pct) }}%</td>
+          <td>{{ "%.1f"|format(team.final_pct) }}%</td>
+          <td>{{ "%.1f"|format(team.semi_pct) }}%</td>
+          <td>{{ "%.1f"|format(team.quarter_pct) }}%</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Confederation Summary</h2>
+    <table>
+      <thead><tr><th>Confederation</th><th>Total Win Probability</th></tr></thead>
+      <tbody>
+        {% for conf in conf_stats %}
+        <tr>
+          <td><span class="conf-badge conf-{{ conf.name }}">{{ conf.name }}</span></td>
+          <td class="prob-text">{{ "%.1f"|format(conf.prob) }}%</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+
+  <footer>
+    World Cup 2026 Predictor
+    {% if is_live %}Data from wc2026.moothz.win API{% else %}Data from Wikipedia & FIFA rankings{% endif %}
+    • Elo-based Monte Carlo simulation
+  </footer>
+</div>
+</body>
+</html>
