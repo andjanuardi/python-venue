@@ -9,6 +9,9 @@ from loklok_api_mobile import (
     load_movie_db, search_db, filter_db,
 )
 
+STREAM_HOST = "localhost"
+STREAM_PORT = 8765
+
 def clear():
     w = shutil.get_terminal_size().columns
     print("\n" + "=" * w)
@@ -611,31 +614,72 @@ def stream_url(mid, eid, judul, enum, category=1, detail_subs=None):
     except (ValueError, EOFError, KeyboardInterrupt):
         pass
 
-def serve_stream(stream_url, sub_options, title, port=8765):
-    import threading
-    from http.server import HTTPServer, SimpleHTTPRequestHandler
+def serve_stream(stream_url, sub_options, title):
+    import threading, re
+    import requests as req
+    from http.server import HTTPServer, BaseHTTPRequestHandler
 
-    tmpdir = "/tmp/loklok"
-    os.makedirs(tmpdir, exist_ok=True)
-    m3u8_path = os.path.join(tmpdir, "stream.m3u8")
+    host = STREAM_HOST
+    port = STREAM_PORT
 
-    lines = ["#EXTM3U", "#EXT-X-VERSION:6"]
+    m3u8_lines = ["#EXTM3U", "#EXT-X-VERSION:6"]
     if sub_options:
-        for i, (lang, sub_url) in enumerate(sub_options):
+        for i, (lang, _) in enumerate(sub_options):
             abbr = "in_ID" if i == 0 else "en"
             default = "YES" if i == 0 else "NO"
-            lines.append(f'#EXT-X-MEDIA:TYPE=SUBTITLES,GROUP-ID="subs",NAME="{lang}",DEFAULT={default},AUTOSELECT={default},LANGUAGE="{abbr}",URI="{sub_url}"')
-        lines.append(f'#EXT-X-STREAM-INF:BANDWIDTH=8000000,SUBTITLES="subs"')
+            uri = f"http://{host}:{port}/sub/{i}.vtt"
+            m3u8_lines.append(f'#EXT-X-MEDIA:TYPE=SUBTITLES,GROUP-ID="subs",NAME="{lang}",DEFAULT={default},AUTOSELECT={default},LANGUAGE="{abbr}",URI="{uri}"')
+        m3u8_lines.append(f'#EXT-X-STREAM-INF:BANDWIDTH=8000000,SUBTITLES="subs"')
     else:
-        lines.append('#EXT-X-STREAM-INF:BANDWIDTH=8000000')
-    lines.append(stream_url)
+        m3u8_lines.append('#EXT-X-STREAM-INF:BANDWIDTH=8000000')
+    m3u8_lines.append(stream_url)
+    m3u8_content = "\n".join(m3u8_lines) + "\n"
 
-    with open(m3u8_path, "w") as f:
-        f.write("\n".join(lines) + "\n")
+    req.packages.urllib3.disable_warnings()
+    vtt_cache = {}
 
-    class Handler(SimpleHTTPRequestHandler):
-        def __init__(self, *args, **kwargs):
-            super().__init__(*args, directory=tmpdir, **kwargs)
+    class Handler(BaseHTTPRequestHandler):
+        def do_GET(self):
+            if self.path == "/stream.m3u8":
+                self._m3u8()
+            elif self.path.startswith("/sub/"):
+                self._subtitle()
+            else:
+                self.send_error(404)
+
+        def _m3u8(self):
+            self.send_response(200)
+            self.send_header("Content-Type", "application/vnd.apple.mpegurl")
+            self.end_headers()
+            self.wfile.write(m3u8_content.encode())
+
+        def _subtitle(self):
+            try:
+                idx = int(self.path.split("/")[-1].split(".")[0])
+                if not (0 <= idx < len(sub_options)):
+                    raise ValueError
+            except (ValueError, IndexError):
+                self.send_error(404)
+                return
+
+            if idx not in vtt_cache:
+                _, srt_url = sub_options[idx]
+                try:
+                    r = req.get(srt_url, verify=False, timeout=10)
+                    if r.status_code != 200:
+                        self.send_error(502)
+                        return
+                    vtt = "WEBVTT\n\n" + re.sub(r'(\d{2}:\d{2}:\d{2}),(\d{3})', r'\1.\2', r.text)
+                    vtt_cache[idx] = vtt
+                except Exception:
+                    self.send_error(502)
+                    return
+
+            self.send_response(200)
+            self.send_header("Content-Type", "text/vtt; charset=utf-8")
+            self.end_headers()
+            self.wfile.write(vtt_cache[idx].encode("utf-8"))
+
         def log_message(self, fmt, *args):
             pass
 
@@ -646,14 +690,13 @@ def serve_stream(stream_url, sub_options, title, port=8765):
     clear()
     header("STREAM SERVER")
     print(f"  Judul : {title}")
-    print(f"  URL   : http://localhost:{port}/stream.m3u8")
+    print(f"  URL   : http://{host}:{port}/stream.m3u8")
     print(f"\n  Buka URL di atas di VLC/mpv/IINA.")
     print(f"\n  Tekan Enter untuk berhenti...")
     input()
 
     server.shutdown()
     server.server_close()
-    os.unlink(m3u8_path)
 
 
 def salin(url):
@@ -673,6 +716,42 @@ def salin(url):
             print(f"  {url}")
     pause()
 
+# --- Settings ---
+
+def settings_menu():
+    global STREAM_HOST, STREAM_PORT
+    while True:
+        clear()
+        header("SETTINGS")
+        print(f"  [1] Host stream : {STREAM_HOST}")
+        print(f"  [2] Port stream : {STREAM_PORT}")
+        print()
+        print("  [0] Kembali")
+        print()
+        try:
+            c = int(input("  Pilih: ").strip())
+            if c == 0:
+                return
+            elif c == 1:
+                h = input(f"  Host [{STREAM_HOST}]: ").strip()
+                if h:
+                    STREAM_HOST = h
+            elif c == 2:
+                p = input(f"  Port [{STREAM_PORT}]: ").strip()
+                if p:
+                    pn = int(p)
+                    if 1024 <= pn <= 65535:
+                        STREAM_PORT = pn
+                    else:
+                        print("  Port harus 1024-65535")
+                        pause()
+        except ValueError:
+            print("  Port harus angka")
+            pause()
+        except (EOFError, KeyboardInterrupt):
+            return
+
+
 # --- Menu utama ---
 
 def main():
@@ -683,6 +762,7 @@ def main():
         ("Negara", browse_country),
         ("Login" if not is_logged_in() else "Logout", do_login if not is_logged_in() else do_logout),
         ("Scan API", scan_ids),
+        ("Settings", settings_menu),
     ]
     while True:
         r = pilih(ops, "LOKLOK STREAM CLI")
