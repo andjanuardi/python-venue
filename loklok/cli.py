@@ -565,8 +565,8 @@ def stream_url(mid, eid, judul, enum, category=1):
                 print("  Subtitle:")
                 for s in subs:
                     if isinstance(s, dict):
-                        lang = s.get("language") or s.get("lang") or ""
-                        su = s.get("url") or s.get("subtitleUrl") or ""
+                        lang = s.get("language") or s.get("languageAbbr") or ""
+                        su = s.get("subtitlingUrl") or ""
                         if su:
                             print(f"    {lang}: {su}")
                     elif isinstance(s, str):
@@ -578,9 +578,9 @@ def stream_url(mid, eid, judul, enum, category=1):
             if subs:
                 for i, s in enumerate(subs):
                     if isinstance(s, dict):
-                        su = s.get("url") or s.get("subtitleUrl") or ""
+                        su = s.get("subtitlingUrl") or ""
                         if su:
-                            lang = s.get("language") or s.get("lang") or f"Sub {i+1}"
+                            lang = s.get("language") or s.get("languageAbbr") or f"Sub {i+1}"
                             sub_options.append((lang, su))
             for i, (lang, _) in enumerate(sub_options, 1):
                 print(f"  [{i+2}] Salin subtitle ({lang})")

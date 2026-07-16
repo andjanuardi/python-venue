@@ -1152,6 +1152,30 @@ RiHOMvgC2si1VqrgaQIDAQAB
 : JS:      parameter dari caller (Vue komponen) → `e=>e.data||{`
 : Note:    Album. items: [].
 
+### `GET /cms/web/h5/movieDrama/getPlayInfo`
+: Params:  `id` (int, movie/drama ID), `episodeId` (int), `category` (int, 0/1)
+: Body:    none
+: Response: `{"code":"00000","data":{"mediaUrl","totalDuration","subtitlingList":[...],"definitionList":[...],"currentDefinition":"GROOT_FD","freeDuration":300}}`
+: Note:    Play info via H5 client. Return **preview-only** (15s, freeDuration 300s, size kecil, CDN preview). `subtitlingList` berisi daftar subtitle.
+
+### `GET /cms/web/ios_h5/movieDrama/getPlayInfo`
+: Params:  `id` (int), `episodeId` (int), `category` (int, 0/1), `definition` (string, optional: GROOT_HD/SD/LD/FD)
+: Body:    none
+: Response: `{"code":"00000","data":{"mediaUrl","totalDuration","subtitlingList":[...],"definitionList":[...],"currentDefinition":"GROOT_SD","freeDuration":null}}`
+: JS:      `fetchGetPlayInfoIos=e=>request.get("/cms/web/ios_h5/movieDrama/getPlayInfo",e)`
+: Note:    Play info via iOS endpoint. Return **full episode** (durasi penuh, size besar, CDN play). `subtitlingList` mungkin kosong jika tanpa login.
+
+**Response field `subtitlingList[]` (dari JS bundle):**
+: Setiap item memiliki struktur:
+: - `subtitlingUrl` (string) — URL file VTT subtitle
+: - `language` (string) — Nama bahasa display (e.g., "English")
+: - `languageAbbr` (string) — Kode bahasa (e.g., "en", "id")
+
+**Response field `definitionList[]`:**
+: Setiap item:
+: - `code` (string) — "GROOT_HD", "GROOT_SD", "GROOT_LD", "GROOT_FD"
+: - `description` (string) — "1080P", "720P", dll
+
 ---
 
 ## Catatan Teknis
