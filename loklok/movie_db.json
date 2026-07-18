@@ -1621,6 +1621,24 @@
     "intro": "After the devastating events of Avengers: Infinity War (2018), the universe is in ruins. With the help of remaining allies, the Avengers assemble once"
   },
   {
+    "id": 1751,
+    "title": "Captain America: The First Avenger",
+    "year": 2011,
+    "eps": null,
+    "alias": "The First Avenger: Captain America",
+    "area": [
+      "America"
+    ],
+    "tags": [
+      "Action",
+      "Adventure",
+      "Sci-Fi"
+    ],
+    "cover": "https://img.netpop.app/cover/20210929/1632889022121_a3f9fd0808851340a431f4c74b1f0ebfvSNxAJTlD0r02V9sPYpOjqDZXUK.jpg",
+    "type": "movie",
+    "intro": "Steve Rogers, a rejected military soldier, transforms into Captain America after taking a dose of a \"Super-Soldier serum\". But being Captain America c"
+  },
+  {
     "id": "1752",
     "title": "Captain America: The Winter Soldier",
     "year": 2014,
@@ -2504,6 +2522,24 @@
     "cover": "https://img.netpop.app/cover/20211201/1638350293404_c09136d3e9805e5c6dec6447e270decdmFi8uZuWlPHKdRlUzyOWyQgdKRv.jpg",
     "type": "movie",
     "intro": "As Scott Lang balances being both a superhero and a father, Hope van Dyne and Dr. Hank Pym present an urgent new mission that finds the Ant-Man fighti"
+  },
+  {
+    "id": 2530,
+    "title": "Pirates of the Caribbean: The Curse of the Black Pearl",
+    "year": 2003,
+    "eps": null,
+    "alias": "",
+    "area": [
+      "America"
+    ],
+    "tags": [
+      "Action",
+      "Adventure",
+      "Fantasy"
+    ],
+    "cover": "https://img.netpop.app/cover/20210914/1631613740373_e76c729f113b0d9de8661ee0a3f72b0dogP0dX0FVJ7pW8nnCWkGxPSdIB2.jpg",
+    "type": "movie",
+    "intro": "Blacksmith Will Turner teams up with eccentric pirate \"Captain\" Jack Sparrow to save his love, the governor's daughter, from Jack's former pirate alli"
   },
   {
     "id": "2542",
@@ -4463,6 +4499,30 @@
     "intro": "Agent Augustus Gibbons has selected an imprisoned former US Navy SEAL Darius Stone, a new agent in the XXX program, travels to Washington D.C., where "
   },
   {
+    "id": 5011,
+    "title": "Life of Pi",
+    "year": 2012,
+    "eps": null,
+    "alias": "",
+    "area": [
+      "Canada",
+      "France",
+      "India",
+      "Mexico",
+      "Taiwan",
+      "U.K",
+      "America"
+    ],
+    "tags": [
+      "Adventure",
+      "Drama",
+      "Fantasy"
+    ],
+    "cover": "https://img.netpop.app/cover/20211029/1635506674253_fe48db984873a96cfb01fec92377e032leKQao68zra3SY2cPHZLzEbdLKT.jpg",
+    "type": "movie",
+    "intro": "In Canada, a writer visits the Indian storyteller Pi Patel and asks him to tell his life story. Pi tells the story of his childhood in Pondicherry, In"
+  },
+  {
     "id": "5070",
     "title": "Ballerina",
     "year": 2016,
@@ -4894,6 +4954,26 @@
     "cover": "https://img.netpop.app/cover/20211109/1636425317243_07602885a0680e276179744617144219mL3QgH8T4F5tQ9cVDVY5J7glsb5.jpg",
     "type": "drama",
     "intro": "The delicate balance between the rich city of Piltover and the seedy underbelly of Zaun. Tensions between these city-states boil over with the creatio"
+  },
+  {
+    "id": 5881,
+    "title": "Shang-Chi and the Legend of the Ten Rings",
+    "year": 2021,
+    "eps": null,
+    "alias": "10anillos",
+    "area": [
+      "Australia",
+      "America"
+    ],
+    "tags": [
+      "Action",
+      "Adventure",
+      "Fantasy",
+      "Sci-Fi"
+    ],
+    "cover": "https://img.netpop.app/cover/20220630/1656568034528_833928bb6bfb05c184879416d50156a1尚气.jpg",
+    "type": "movie",
+    "intro": "The story takes place after the \"Avengers 4: Endgame\" incident, Shang Qi (played by Liu Simu) is involved in the secret Ten Ring Gang organization and"
   },
   {
     "id": 5896,
@@ -6087,6 +6167,26 @@
     "intro": "An eccentric genius profiler works with a detective with photographic memory and a police chief to go after a serial killer who was thought to be dead"
   },
   {
+    "id": 8514,
+    "title": "Paddington 2",
+    "year": 2017,
+    "eps": null,
+    "alias": "",
+    "area": [
+      "France",
+      "U.K",
+      "America"
+    ],
+    "tags": [
+      "Anime",
+      "Comedy",
+      "Family"
+    ],
+    "cover": "https://img.netpop.app/cover/20211213/1639393010728_7521dc1f0a1226655a7db210b4c1cb4e帕丁顿熊2.png",
+    "type": "movie",
+    "intro": "Paddington, now happily settled with the Brown family and a popular member of the local community, picks up a series of odd jobs to buy the perfect pr"
+  },
+  {
     "id": "8577",
     "title": "Secret Zoo",
     "year": 2020,
@@ -6325,6 +6425,24 @@
     "cover": "https://img.netpop.app/cover/20211216/1639643035766_f842c04ab2a598b7f67478b7525311fdmgyvwqn5SYKhfg5kofZDfgH8R0q.jpg",
     "type": "movie",
     "intro": "Lynn, a genius high school student who makes money by helping others cheat tests, receives a new task that leads her to Sydney, Australia. In order to"
+  },
+  {
+    "id": 9051,
+    "title": "How to Train Your Dragon 2",
+    "year": 2014,
+    "eps": null,
+    "alias": "",
+    "area": [
+      "America"
+    ],
+    "tags": [
+      "Adventure",
+      "Anime",
+      "Fantasy"
+    ],
+    "cover": "https://img.netpop.app/cover/20211216/1639645649175_79ed6b766b1ba2ac55a597ebffbb4f4c1yC7mlAGPBCrMlnXpgqvWA8ObII.jpg",
+    "type": "movie",
+    "intro": "When Hiccup and Toothless discover an ice cave that is home to hundreds of new wild dragons and the mysterious Dragon Rider, the two friends find them"
   },
   {
     "id": "9054",
@@ -7808,6 +7926,25 @@
     "cover": "https://img.netpop.app/cover/20240322/1711089896071_759ec4bf58bacaf5789e3a50d57bbac11652766627455_2042904739f880132d29433580c50c6fc0xkumbQcInSXSYjJVIm7SnQ9H5.jpg",
     "type": "drama",
     "intro": "Wealth, lust, and betrayal set against the backdrop of Regency-era England, seen through the eyes of the powerful Bridgerton family."
+  },
+  {
+    "id": 13569,
+    "title": "The Larva Island Movie",
+    "year": 2020,
+    "eps": null,
+    "alias": "",
+    "area": [
+      "South Korea"
+    ],
+    "tags": [
+      "Adventure",
+      "Anime",
+      "Comedy",
+      "Family"
+    ],
+    "cover": "https://img.netpop.app/cover/20220830/1661841468197_146a52078eda7bbc11f5961e8b5d17975.jpg",
+    "type": "movie",
+    "intro": "In this movie sequel to the hit series, Chuck returns home and talks to a reporter about life on the island with zany larva pals Red and Yellow"
   },
   {
     "id": "13629",
@@ -9946,6 +10083,23 @@
     "cover": "https://img.netpop.app/cover/20220620/1655693441473_40fe58a0aa1b91fb3c760e63cd808fd0b03zZZTE17iH6klsInFOlrgfYRN.jpg",
     "type": "movie",
     "intro": "An extremely wealthy man, dying from cancer, undergoes a radical medical procedure that transfers his consciousness into the body of a healthy young m"
+  },
+  {
+    "id": 21021,
+    "title": "Shoplifters",
+    "year": 2018,
+    "eps": null,
+    "alias": "Manbiki kazoku",
+    "area": [
+      "Japan"
+    ],
+    "tags": [
+      "Crime",
+      "Drama"
+    ],
+    "cover": "https://img.netpop.app/cover/20220620/1655713941904_36177c5c00e772c0dda0438adafb7df1小偷 竖.jpg",
+    "type": "movie",
+    "intro": "A Japanese couple stuck with part-time jobs and hence inadequate incomes avail themselves of the fruits of shoplifting to make ends meet. They are not"
   },
   {
     "id": "21030",
@@ -17688,6 +17842,23 @@
     "intro": "Jun Shirasaki and the Jinguuji sisters are childhood friends and neighbors. When Jun's first girlfriend, the older sister Ryuumi, breaks up with him, "
   },
   {
+    "id": 46831,
+    "title": "Bye Bye, Earth",
+    "year": 2024,
+    "eps": 10,
+    "alias": "",
+    "area": [
+      "Japan"
+    ],
+    "tags": [
+      "Anime",
+      "Drama"
+    ],
+    "cover": "https://img.netpop.app/cover/20240712/1720764601984_2e1c42018a32da4dd4559d589ce8d173iUL3UND2Uu6ycTcBRo4PxVYr5W2.jpg",
+    "type": "Anime",
+    "intro": "In a world of anthropomorphic animals, Belle Lablac was born as the only human being. Having no fangs, fur, or scales, she was called \"Faceless,\" and "
+  },
+  {
     "id": "46832",
     "title": "Why Does Nobody Remember Me in This World?",
     "year": 2024,
@@ -18548,6 +18719,25 @@
     "cover": "https://img.netpop.app/cover/20240910/1725973005359_4d4253c9e05c16c2602f12f492c300b2Escape 1.jpg",
     "type": "movie",
     "intro": "Ten trafficked women attempt escaping ruthless gang after being abducted from resort. Nurse and dancer lead fight for survival in desert against traff"
+  },
+  {
+    "id": 51071,
+    "title": "Piano Forest",
+    "year": 2007,
+    "eps": null,
+    "alias": "Piano no mori，Piano Forest: The Perfect World of Kai",
+    "area": [
+      "Japan"
+    ],
+    "tags": [
+      "Anime",
+      "Drama",
+      "Family",
+      "Musical"
+    ],
+    "cover": "https://img.netpop.app/cover/20240910/1725974277857_6da4b3351660ef5d9de50f27dd5f2f8ePiano ForestG.jpg",
+    "type": "movie",
+    "intro": "The son of a prostitute and the son of a professional musician develop a bond of friendship through their love of playing the piano."
   },
   {
     "id": "51072",
@@ -19457,6 +19647,23 @@
     "cover": "https://img.netpop.app/cover/20241108/1731033768403_b03628056ee7163b9493f8922b003f3c1777_KIREPAPA.png",
     "type": "Anime",
     "intro": "Chisato Takatsukasa, a 35-year-old author, has such a youthful appearance that anyone would think him to be in his early twenties. His work is inspire"
+  },
+  {
+    "id": 53930,
+    "title": "Happy-Go-Lucky Days",
+    "year": 2020,
+    "eps": null,
+    "alias": "Dônika naru hibi，Dounika Naru Hibi",
+    "area": [
+      "Japan"
+    ],
+    "tags": [
+      "Anime",
+      "Drama"
+    ],
+    "cover": "https://img.netpop.app/cover/20241024/1729739427692_c9851cbfab4bc65c3e597d3b78f134f2顺其自然的日子1.jpg",
+    "type": "movie",
+    "intro": "Love is love. Someday, the pain of being in love will be an endearing memory. No matter who the feelings are towards, no matter what form it takes, al"
   },
   {
     "id": "53943",
@@ -21129,6 +21336,24 @@
     "intro": "A factory town is covered by chimney smoke, and as the townspeople haven't see the sky in centuries, they no longer believe that stars exist. A chimne"
   },
   {
+    "id": 64693,
+    "title": "The Piper",
+    "year": 2015,
+    "eps": null,
+    "alias": "Sonnim,Visitor,Guest",
+    "area": [
+      "South Korea"
+    ],
+    "tags": [
+      "Horror",
+      "Suspense",
+      "Thriller"
+    ],
+    "cover": "https://img.netpop.app/cover/20241226/1735198283085_6b3f7ad317e03da2448f7087a177c02ep21RvglEmC4MMDb6IyNX2GQrgPu.jpg",
+    "type": "movie",
+    "intro": "Shortly after the Korean war, a father and a son are wandering through the country and make a stop in a remote village, where strange and dangerous ha"
+  },
+  {
     "id": "65123",
     "title": "Teketeke",
     "year": 2009,
@@ -21340,6 +21565,29 @@
     "cover": "https://img.netpop.app/cover/20250123/1737615954248_21c82b706e01305400d05b2285843ee6一杆青空.png",
     "type": "Anime",
     "intro": "High schooler Minami Aoba has no strengths or aspirations and worries that she will graduate as a mere \"villager A.\" In search of her uniqueness, she "
+  },
+  {
+    "id": 66077,
+    "title": "All We Imagine as Light",
+    "year": 2024,
+    "eps": null,
+    "alias": "",
+    "area": [
+      "Belgium",
+      "France",
+      "India",
+      "Italy",
+      "America",
+      "Switzerland",
+      "Netherlands",
+      "Luxembourg"
+    ],
+    "tags": [
+      "Drama"
+    ],
+    "cover": "https://img.netpop.app/cover/20250103/1735871522016_81c51530744f830bf523c38fee3a0e65All We Imagine as Light1.jpg",
+    "type": "movie",
+    "intro": "In Mumbai, Nurse Prabha's routine is troubled when she receives an unexpected gift from her estranged husband. Her younger roommate, Anu, tries in vai"
   },
   {
     "id": 66115,
@@ -22344,6 +22592,25 @@
     "intro": "A deity ends an ancient mecha war but falls dormant. Now, jobless Hoeru meets this being when evil forces attack Earth. Gaining transformation powers,"
   },
   {
+    "id": 73625,
+    "title": "Dog Man",
+    "year": 2025,
+    "eps": null,
+    "alias": "Dog Man, Las aventuras de Dog Man",
+    "area": [
+      "America"
+    ],
+    "tags": [
+      "Action",
+      "Adventure",
+      "Anime",
+      "Comedy"
+    ],
+    "cover": "https://img.netpop.app/cover/20250218/1739861618148_c65a753793ef730b3965e5276062e99389wNiexZdvLQ41OQWIsQy4O6jAQ.jpg",
+    "type": "movie",
+    "intro": "Dog Man, half dog and half man, he is sworn to protect and serve as he doggedly pursues the feline supervillain Petey the Cat."
+  },
+  {
     "id": "73790",
     "title": "Muv-Luv Alternative Total Eclipse",
     "year": 2012,
@@ -22523,6 +22790,25 @@
     "area_summary": "",
     "tag_summary": "Drama, Fantasi, Horor, Sci-Fi, Thriller",
     "updateTime": ""
+  },
+  {
+    "id": 78047,
+    "title": "Plankton: The Movie",
+    "year": 2025,
+    "eps": null,
+    "alias": "",
+    "area": [
+      "America"
+    ],
+    "tags": [
+      "Adventure",
+      "Anime",
+      "Comedy",
+      "Fantasy"
+    ],
+    "cover": "https://img.netpop.app/cover/20250307/1741341153158_53cc045f6286b88d942a1b32e06689ca竖.jpg",
+    "type": "movie",
+    "intro": "When Karen the Computer decides to take over the world, it's up to Plankton to stop her - with a little help from SpongeBob and the Gal Pals (Pearl, S"
   },
   {
     "id": "78406",
@@ -32224,6 +32510,22 @@
     "updateTime": ""
   },
   {
+    "id": 145988,
+    "title": "The Warlord’s Return",
+    "year": 2025,
+    "eps": 55,
+    "alias": "",
+    "area": [
+      "America"
+    ],
+    "tags": [
+      "Bossy CEO"
+    ],
+    "cover": "https://img.netpop.app/cover/20260601/1780283388450_255afb14e5d30d715e846d2f194d5cbeimage_697968668479001.png",
+    "type": "Mini-Series",
+    "intro": "War hero Harrison returns home only to learn his sister was killed by her fiancé, Karter. Wearing his battered fatigues, he crashes Karter’s lavish ba"
+  },
+  {
     "id": 146123,
     "title": "Alas Roban",
     "year": 0,
@@ -32504,6 +32806,24 @@
     "updateTime": ""
   },
   {
+    "id": 147686,
+    "title": "Pitfall",
+    "year": 2025,
+    "eps": null,
+    "alias": "",
+    "area": [
+      "Canada",
+      "America"
+    ],
+    "tags": [
+      "Horror",
+      "Thriller"
+    ],
+    "cover": "https://img.netpop.app/cover/20260605/1780651288368_628f78be3e33bd7ac5cf1dc8eff3f9a1十尺尖牢.webp",
+    "type": "movie",
+    "intro": "After a young man gets separated from his friends while in the woods, he falls into a 10-foot deep pit of spikes, impaling him through the leg, and le"
+  },
+  {
     "id": 147707,
     "title": "Anne Rice's The Vampire Lestat",
     "year": 2026,
@@ -32742,6 +33062,23 @@
     "area_summary": "",
     "tag_summary": "Kriminal, Drama, Thriller",
     "updateTime": ""
+  },
+  {
+    "id": 149940,
+    "title": "Blue Film",
+    "year": 2025,
+    "eps": null,
+    "alias": "",
+    "area": [
+      "America"
+    ],
+    "tags": [
+      "LGBTQ",
+      "Sex"
+    ],
+    "cover": "https://img.netpop.app/cover/20260615/1781508100070_e2fa7b51da955db95de5b1c70147e57c蓝色电影.webp",
+    "type": "movie",
+    "intro": "Fetish camboy Aaron Eagle agrees to spend the night with an anonymous client, only to discover a disturbing tie to his past."
   },
   {
     "id": 150164,
@@ -33339,6 +33676,24 @@
     "updateTime": ""
   },
   {
+    "id": 152434,
+    "title": "Drishyam 3",
+    "year": 2026,
+    "eps": null,
+    "alias": "",
+    "area": [
+      "India"
+    ],
+    "tags": [
+      "Crime",
+      "Drama",
+      "Family"
+    ],
+    "cover": "https://img.netpop.app/cover/20260624/1782293017786_353538a90e29da58a97e0f862213ec45lyhTXw364iFR3hTKrsUNmPFL1rV.jpg",
+    "type": "movie",
+    "intro": "Follows Georgekutty as his life unfolds four-and-a-half years after the events of the previous film."
+  },
+  {
     "id": 152692,
     "title": "Spooky in Love",
     "year": 0,
@@ -33385,6 +33740,24 @@
     "area_summary": "",
     "tag_summary": "",
     "updateTime": ""
+  },
+  {
+    "id": 152811,
+    "title": "Saga of Tanya the Evil II",
+    "year": 2026,
+    "eps": 12,
+    "alias": "Youjo Senki II",
+    "area": [
+      "Japan"
+    ],
+    "tags": [
+      "Adventure",
+      "Anime",
+      "Fantasy"
+    ],
+    "cover": "https://img.netpop.app/cover/20260625/1782374494684_e011bcd2d4a8df8cfef7a1d71bccccce1.jpg",
+    "type": "Anime",
+    "intro": "A girl with blond hair, blue eyes, and porcelain skin fights on the front lines of a brutal war and climbs the ranks of the imperial army."
   },
   {
     "id": 152822,
@@ -33732,6 +34105,24 @@
     "updateTime": ""
   },
   {
+    "id": 153293,
+    "title": "Love Unseen Beneath the Clear Night Sky",
+    "year": 2026,
+    "eps": 12,
+    "alias": "Toumei na Yoru ni Kakeru Kimi to, Me ni Mienai Koi wo Shita.,Toumei na Yoru ni Kakeru Kimi to, Me ni Mienai Koi wo Shita., Gokusai no Yoru ni Kakeru-kun to, Menimienai Koi wo Shita., KakeKoi,透明な夜に駆ける君と、目に見えない恋をした。",
+    "area": [
+      "Japan"
+    ],
+    "tags": [
+      "Anime",
+      "Romantic",
+      "Romantic"
+    ],
+    "cover": "https://img.netpop.app/cover/20260629/1782701098054_46d78a87b150a667a0bea9dfad637814qbPEnASkv65oKE06wHefsHMcgA0.webp",
+    "type": "Anime",
+    "intro": "On an April night in Tokyo, still too early for fireworks, university student Kakeru Mano meets a woman named Koharu Fuyutsuki. She is a beautiful gir"
+  },
+  {
     "id": 153304,
     "title": "Citizen Vigilante",
     "year": 0,
@@ -33746,6 +34137,23 @@
     "area_summary": "",
     "tag_summary": "",
     "updateTime": ""
+  },
+  {
+    "id": 153332,
+    "title": "A Livid Lady's Guide to Getting Even: How I Crushed My Homeland with My Mighty Grimoires",
+    "year": 2026,
+    "eps": 12,
+    "alias": "Buchigire Reijou wa Houfuku wo Chikaimashita. Madousho no Chikara de Sokoku wo Tatakitsubushimasu,The Furious Princess Decided to Take Revenge,ブチ切れ令嬢は報復を誓いました。～魔導書の力で祖国を叩き潰します～",
+    "area": [
+      "Japan"
+    ],
+    "tags": [
+      "Anime",
+      "Fantasy"
+    ],
+    "cover": "https://img.netpop.app/cover/20260629/1782702767519_b7dac3270f3a458859ce37e6869d4e38p2932046063.webp",
+    "type": "Anime",
+    "intro": "Elizabeth Leiston, the daughter of Haldoria's powerful prime minister, is the picture of a refined noble lady and the perfect future queen. But when h"
   },
   {
     "id": "153387",
@@ -33779,6 +34187,23 @@
     "area_summary": "",
     "tag_summary": "",
     "updateTime": ""
+  },
+  {
+    "id": 153493,
+    "title": "Tomb Raider King",
+    "year": 2026,
+    "eps": 12,
+    "alias": "トウクツオウ,도굴왕,Dogul-wang,Toukutsu Ou",
+    "area": [
+      "South Korea"
+    ],
+    "tags": [
+      "Action",
+      "Adventure"
+    ],
+    "cover": "https://img.netpop.app/cover/20260629/1782717966423_9619dcc544a004aef78938c0ca3991edxuq0kl6BOlEtjJOG6FCjoGJuqqK.jpg",
+    "type": "Anime",
+    "intro": "Undercover behind enemy lines, Jooheon's newest plan to torment TKBM will involve taking them down from the inside! Stealing their relics and causing "
   },
   {
     "id": 153597,
@@ -34183,5 +34608,212 @@
     "cover": "https://img.netpop.app/cover/20260707/1783405267563_417454695947163e87ac09e92a32cb47母胎单身恋爱大作战2.webp",
     "type": "Variety Show",
     "intro": "\"Better Late Than Single\" is a \"dating makeover reality show,\" which tracks the first romantic steps of people with zero dating experience but maximum"
+  },
+  {
+    "id": 154753,
+    "title": "Alpha",
+    "year": 2026,
+    "eps": null,
+    "alias": "",
+    "area": [
+      "India"
+    ],
+    "tags": [
+      "Action",
+      "Adventure",
+      "Thriller"
+    ],
+    "cover": "https://img.netpop.app/cover/20260707/1783415931218_64371b4925f5b7270a37fa0d2a84fd81bPtRt3ajQ0EkyeQ1O6iJwAIi9Py.jpg",
+    "type": "movie",
+    "intro": "Driven by revenge, a young girl destroys anyone in her path until her journey uncovers the hidden truths of her own life. She is bold, cold, and ready"
+  },
+  {
+    "id": 154832,
+    "title": "Black Box: Flight 298",
+    "year": 2026,
+    "eps": null,
+    "alias": "Black Box (Flight 298)",
+    "area": [
+      "America"
+    ],
+    "tags": [
+      "Horror",
+      "Thriller"
+    ],
+    "cover": "https://img.netpop.app/cover/20260708/1783487851895_773a03e395b8376c773b17797df5a662夺命航班.webp",
+    "type": "movie",
+    "intro": "Vero Airlines Flight 298 from New Orleans to Seattle becomes the center of a chilling supernatural mystery."
+  },
+  {
+    "id": 154910,
+    "title": "Skywalkers: A Love Story",
+    "year": 2024,
+    "eps": null,
+    "alias": "",
+    "area": [
+      "America"
+    ],
+    "tags": [
+      "Documentary"
+    ],
+    "cover": "https://img.netpop.app/cover/20260708/1783503458503_88c1b1af9dfcf01214797b1ad23abb9a行走天际：极限爱情故事.webp",
+    "type": "movie",
+    "intro": "A daring couple travels worldwide to climb the 118-story megatall skyscraper, Merdeka 118, in Kuala Lumpur, Malaysia, attempting a bold acrobatic stun"
+  },
+  {
+    "id": 154915,
+    "title": "Perfect Addiction",
+    "year": 2026,
+    "eps": 12,
+    "alias": "パーフェクトアディクション",
+    "area": [
+      "Japan"
+    ],
+    "tags": [
+      "Anime",
+      "LGBTQ"
+    ],
+    "cover": "https://img.netpop.app/cover/20260708/1783516292584_e2eb5f48712def5d20fe9a4b5e2fffe8Aal2qmznvyG7zUHAeZI5cOHHO1e.webp",
+    "type": "Anime",
+    "intro": "Akihito is a college student obsessed with good looks and carnal pleasure, but he can’t stand the handsome-yet-aloof Sae. Things come to a head when A"
+  },
+  {
+    "id": 155027,
+    "title": "A Bona Fide Killer",
+    "year": 2026,
+    "eps": 14,
+    "alias": "유부녀 킬러,Married Woman Killer,A Bona Fide Killer",
+    "area": [
+      "South Korea"
+    ],
+    "tags": [
+      "Action",
+      "Adventure",
+      "Thriller"
+    ],
+    "cover": "https://img.netpop.app/cover/20260709/1783579892052_8619287ba827be341c7d9964b31786f8e9ziA4Y6md4Ytr62r5y9vRdv4ll.jpg",
+    "type": "drama",
+    "intro": "【Release on 7.31】The story of a married woman who works as a killer in a secret organization and her husband who wants to reveal his wife's secret."
+  },
+  {
+    "id": 155030,
+    "title": "Little House on the Prairie Season 1",
+    "year": 2026,
+    "eps": 8,
+    "alias": "",
+    "area": [
+      "America"
+    ],
+    "tags": [
+      "Family",
+      "History",
+      "Romantic",
+      "Romantic"
+    ],
+    "cover": "https://img.netpop.app/cover/20260709/1783580098145_634e29cc3731a65cb86228cfceae6493草原上的小木屋.webp",
+    "type": "drama",
+    "intro": "The Ingalls family lives and works on a farm in Midwestern America during the late 19th century."
+  },
+  {
+    "id": 155171,
+    "title": "Sword Art Online: Unanswered//butterfly",
+    "year": 2026,
+    "eps": null,
+    "alias": "Unanswered//butterfly: Sword Art Online",
+    "area": [
+      "Japan"
+    ],
+    "tags": [
+      "Anime",
+      "Fantasy"
+    ],
+    "cover": "https://img.netpop.app/cover/20260709/1783601962660_4376610d2795c846e9a12e1312c90c8f5DVeBaDAdLCHlLg1nn4sjhUwgcg.webp",
+    "type": "movie",
+    "intro": "The world's first full-dive VRMMO, Sword Art Online—known as SAO. What was meant to be a dream come true has instead transformed into a deadly game wh"
+  },
+  {
+    "id": 155284,
+    "title": "Razor",
+    "year": 2026,
+    "eps": null,
+    "alias": "రేజర్",
+    "area": [
+      "India"
+    ],
+    "tags": [
+      "Action",
+      "Thriller"
+    ],
+    "cover": "https://img.netpop.app/cover/20260710/1783665512951_la5XLMTI7HpzEdrWAZe5vMtyGqt.jpg",
+    "type": "movie",
+    "intro": "A powerful politician and his criminal network hunt a young girl for death. An unlikely dog groomer steps up as her protector while her life hangs in "
+  },
+  {
+    "id": 155303,
+    "title": "Family Register",
+    "year": 2026,
+    "eps": 120,
+    "alias": "가족관계증명서",
+    "area": [
+      "South Korea"
+    ],
+    "tags": [
+      "Drama"
+    ],
+    "cover": "https://img.netpop.app/cover/20260710/1783669536417_516ac7f3ea95d478be95cf99332a6da2l1EoUpPABU7aqr6K2vt40ac0v7B.webp",
+    "type": "drama",
+    "intro": "After being blamed since birth for destroying her family, aspiring animation writer Na Ji Ni grows up carrying deep wounds. Along with her mother, a f"
+  },
+  {
+    "id": 155355,
+    "title": "The Apartment Job",
+    "year": 2026,
+    "eps": 12,
+    "alias": "아파트",
+    "area": [
+      "South Korea"
+    ],
+    "tags": [
+      "Comedy"
+    ],
+    "cover": "https://img.netpop.app/cover/20260711/1783762150278_59f55c7941e63d04895adf50a303e115fE8vX9aeIv7qkoC6ldcEbZA4Trk.webp",
+    "type": "drama",
+    "intro": "Depicts the story of former gangster Hae Gang, who runs for apartment residents' association president to get his hands on the building's hidden money"
+  },
+  {
+    "id": 155884,
+    "title": "Labyrinth",
+    "year": 2026,
+    "eps": null,
+    "alias": "Meikyuu no Shiori,迷宮のしおり",
+    "area": [
+      "Japan"
+    ],
+    "tags": [
+      "Adventure",
+      "Anime",
+      "Fantasy",
+      "Sci-Fi"
+    ],
+    "cover": "https://img.netpop.app/cover/20260715/1784098692823_d837535389b70366d5581589cf641487迷宫之栞.webp",
+    "type": "movie",
+    "intro": "High schooler Shiori's dream of online stardom turns into a mission to save the world from brainrot after an embarrassing video of her goes viral and "
+  },
+  {
+    "id": 156029,
+    "title": "The Dangers in My Heart: The Movie",
+    "year": 2026,
+    "eps": null,
+    "alias": "Boku no Kokoro no Yabai Yatsu Movie,僕の心のヤバイやつ 劇場版",
+    "area": [
+      "Japan"
+    ],
+    "tags": [
+      "Anime",
+      "Romantic"
+    ],
+    "cover": "https://img.netpop.app/cover/20260716/1784186203805_0aa43261a1ff5cbdeb044e44cb108b8d我心里危险的东西.jpg",
+    "type": "movie",
+    "intro": "Ichikawa Kyotaro and Yamada Anna's teenage romance continues. After Kyotaro overcame his dark instincts and confessed his love."
   }
 ]

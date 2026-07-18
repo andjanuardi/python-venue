@@ -167,3 +167,57 @@ def get_home(navigation_id=118, page=0, client_type=None, version_code=None):
     return make_api_call("GET", "/home/h5/getHome",
                          params={"navigationId": navigation_id, "page": page},
                          client_type=client_type, version_code=version_code)
+
+
+LANG_MAP = {
+    "en": "English",
+    "id": "Indonesian",
+    "in_ID": "Bahasa Indonesia",
+    "zh": "Chinese",
+    "ja": "Japanese",
+    "ko": "Korean",
+    "ms": "Malay",
+    "th": "Thai",
+    "vi": "Vietnamese",
+    "ar": "Arabic",
+    "pt": "Portuguese",
+    "es": "Spanish",
+    "fr": "French",
+    "de": "German",
+    "ru": "Russian",
+}
+
+QUALITY_MAP = {
+    "GROOT_HD": "1080P",
+    "GROOT_SD": "720P",
+    "GROOT_LD": "540P",
+    "GROOT_FD": "360P",
+}
+
+
+def get_all_qualities(movie_id, episode_id, category=1):
+    from concurrent.futures import ThreadPoolExecutor, as_completed
+
+    def fetch(q):
+        try:
+            r = get_play_info_ios(movie_id, episode_id, category, definition=q)
+            if r.status_code != 200:
+                return None
+            d = r.json()
+            if d.get("code") != "00000":
+                return None
+            url = d.get("data", {}).get("mediaUrl", "")
+            if not url:
+                return None
+            return {"name": QUALITY_MAP.get(q, q), "url": url}
+        except Exception:
+            return None
+
+    results = []
+    with ThreadPoolExecutor(max_workers=4) as ex:
+        futures = {ex.submit(fetch, q): q for q in QUALITY_MAP}
+        for f in as_completed(futures):
+            r = f.result()
+            if r:
+                results.append(r)
+    return results

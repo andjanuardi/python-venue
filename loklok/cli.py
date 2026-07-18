@@ -698,7 +698,7 @@ def serve_stream(stream_url, sub_options, title):
                 code = lang.split('-')[0] if '-' in lang else lang[:2]
                 tracks += (
                     f'      <track kind="subtitles" src="/sub/{i}.vtt"'
-                    f' srclang="{code}" label="{lang}">\n'
+                    f' srclang="{code}" label="{lang}" {"default" if code == "Ba" else ""} >\n'
                 )
             html = f'''<!DOCTYPE html>
 <html lang="en">

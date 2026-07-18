@@ -8,16 +8,14 @@ echo ========================================
 echo.
 
 echo [1/2] Checking API Server...
-for /f "tokens=5" %%a in ('netstat -ano ^| findstr ":8000 " ^| findstr "LISTEN"') do set PID=%%a
-if defined PID (
-    echo   Restarting API Server (PID %PID%)...
-    taskkill /f /pid %PID% >nul 2>&1
+taskkill /f /fi "WINDOWTITLE eq AndFlix-API" >nul 2>&1
+if %errorlevel% equ 0 (
+    echo   Restarting API Server...
     timeout /t 1 /nobreak >nul
-    set PID=
 ) else (
     echo   Starting API Server...
 )
-start "AndFlix-API" cmd /c ""%PYTHON%" -m uvicorn api.server:app --reload --port 8000"
+start "AndFlix-API" "%PYTHON%" -m uvicorn api.server:app --reload --port 8000
 
 timeout /t 3 /nobreak >nul
 

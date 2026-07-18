@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { HiSearch, HiX } from 'react-icons/hi'
+import { HiSearch, HiX, HiRefresh, HiPlus } from 'react-icons/hi'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { searchMovies } from '../api/client'
 
@@ -21,6 +21,15 @@ export default function Navbar() {
   const debounceRef = useRef(null)
   const navigate = useNavigate()
   const location = useLocation()
+  const [movieCount, setMovieCount] = useState(0)
+  const [scanData, setScanData] = useState(null)
+  const [scanning, setScanning] = useState(false)
+  const [showScanPopup, setShowScanPopup] = useState(false)
+  const [showAddPopup, setShowAddPopup] = useState(false)
+  const [addId, setAddId] = useState('')
+  const [addMsg, setAddMsg] = useState('')
+  const [addOk, setAddOk] = useState(false)
+  const [loadingAdd, setLoadingAdd] = useState(false)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50)
@@ -42,6 +51,27 @@ export default function Navbar() {
     }
     document.addEventListener('mousedown', close)
     return () => document.removeEventListener('mousedown', close)
+  }, [])
+
+  useEffect(() => {
+    if (!scanning) return
+    const poll = async () => {
+      try {
+        const r = await fetch('/api/scan/status')
+        const d = await r.json()
+        setScanData(d)
+        if (!d.running) {
+          setScanning(false)
+          setTimeout(() => { setShowScanPopup(false); setScanData(null) }, 3000)
+        }
+      } catch {}
+    }
+    const id = setInterval(poll, 1500)
+    return () => clearInterval(id)
+  }, [scanning])
+
+  useEffect(() => {
+    fetch('/api/movies/count').then(r => r.json()).then(d => setMovieCount(d.count)).catch(() => {})
   }, [])
 
   const doSearch = useCallback((q) => {
@@ -74,6 +104,38 @@ export default function Navbar() {
     setSearchOpen(false)
     setQuery('')
     setResults([])
+  }
+
+  const handleAddById = async (e) => {
+    e.preventDefault()
+    if (!addId.trim()) return
+    setLoadingAdd(true)
+    setAddMsg('')
+    try {
+      const r = await fetch(`/api/movies/add/${addId.trim()}`, { method: 'POST' })
+      const data = await r.json()
+      setAddOk(r.ok)
+      setAddMsg(r.ok ? `\u2713 ${data.data.title}` : data.error)
+      if (r.ok) {
+        setMovieCount(c => c + 1)
+        setTimeout(() => { setShowAddPopup(false); setAddId('') }, 1200)
+      }
+    } catch {
+      setAddOk(false)
+      setAddMsg('Network error')
+    }
+    setLoadingAdd(false)
+    setTimeout(() => setAddMsg(''), 4000)
+  }
+
+  const handleScan = async () => {
+    setShowScanPopup(true)
+    setScanData({ running: true, total: 0, done: 0, new: 0, errors: 0 })
+    setScanning(true)
+    try {
+      const r = await fetch('/api/scan')
+      setScanData(await r.json())
+    } catch {}
   }
 
   return (
@@ -111,6 +173,117 @@ export default function Navbar() {
         </div>
 
         <div className="flex items-center gap-4 relative" ref={dropdownRef}>
+          {movieCount > 0 && (
+            <span className="hidden sm:inline text-xs text-netflix-gray-light whitespace-nowrap">{movieCount.toLocaleString()} movies</span>
+          )}
+
+          <div className="relative">
+            <button
+              onClick={() => setShowAddPopup(!showAddPopup)}
+              className="p-2 hover:bg-white/10 rounded-full transition-colors"
+              title="Add by ID"
+            >
+              <HiPlus size={22} className="text-white" />
+            </button>
+            <AnimatePresence>
+              {showAddPopup && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="absolute top-full right-0 mt-2 w-48 bg-netflix-dark border border-netflix-border rounded-lg shadow-2xl p-4 z-50"
+                >
+                  <form onSubmit={handleAddById} className="flex flex-col gap-2">
+                    <input
+                      type="number"
+                      placeholder="Movie ID"
+                      value={addId}
+                      onChange={e => setAddId(e.target.value)}
+                      autoFocus
+                      className="w-full bg-netflix-light rounded px-3 py-1.5 text-sm text-white placeholder-netflix-gray focus:outline-none focus:border-white/50"
+                    />
+                    <button
+                      type="submit"
+                      disabled={loadingAdd}
+                      className="w-full py-1.5 bg-netflix-red hover:bg-red-700 rounded text-sm font-medium transition-colors disabled:opacity-50"
+                    >
+                      {loadingAdd ? 'Adding...' : 'Add Movie'}
+                    </button>
+                  </form>
+                  {addMsg && (
+                    <p className={`text-xs mt-2 text-center ${addOk ? 'text-green-400' : 'text-red-400'}`}>
+                      {addMsg}
+                    </p>
+                  )}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          <div className="relative">
+            <button
+              onClick={handleScan}
+              className="p-2 hover:bg-white/10 rounded-full transition-colors relative"
+              title={scanning ? 'Scanning...' : 'Scan movies'}
+            >
+              <motion.div
+                animate={scanning ? { rotate: 360 } : {}}
+                transition={scanning ? { repeat: Infinity, duration: 2, ease: 'linear' } : {}}
+                className="flex"
+              >
+                <HiRefresh size={20} className={scanning ? 'text-netflix-red' : 'text-white'} />
+              </motion.div>
+              {scanning && scanData?.total > 0 && (
+                <span className="absolute -bottom-0.5 -right-0.5 text-[10px] bg-netflix-red text-white rounded-full min-w-[18px] h-[18px] flex items-center justify-center px-1 font-medium leading-none">
+                  {scanData.done}/{scanData.total}
+                </span>
+              )}
+            </button>
+
+            <AnimatePresence>
+              {showScanPopup && scanData && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="absolute top-full right-0 mt-2 w-56 bg-netflix-dark border border-netflix-border rounded-lg shadow-2xl p-4 z-50"
+                >
+                  <p className="text-sm font-medium mb-2">
+                    {scanData.running ? 'Scanning...' : 'Scan Complete'}
+                  </p>
+                  {scanData.total > 0 && (
+                    <>
+                      <div className="h-1.5 bg-netflix-light rounded-full overflow-hidden mb-2">
+                        <motion.div
+                          className="h-full bg-netflix-red rounded-full"
+                          animate={{ width: `${Math.round((scanData.done / scanData.total) * 100)}%` }}
+                          transition={{ duration: 0.3 }}
+                        />
+                      </div>
+                      <div className="flex justify-between text-xs text-netflix-gray-light">
+                        <span>{scanData.done}/{scanData.total}</span>
+                        <span>New: {scanData.new}</span>
+                        <span>Errors: {scanData.errors}</span>
+                      </div>
+                    </>
+                  )}
+                  {!scanData.running && scanData.done > 0 && (
+                    <motion.p
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      className="text-green-400 text-xs mt-2 text-center"
+                    >
+                      ✓ {scanData.new} movies added
+                    </motion.p>
+                  )}
+                  {!scanData.running && scanData.total === 0 && !scanning && (
+                    <p className="text-netflix-gray-light text-xs mt-1 text-center">No new data to scan</p>
+                  )}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
           <AnimatePresence>
             {searchOpen && (
               <motion.div

@@ -1,6 +1,7 @@
 import os
 import time
 import json
+import threading
 import requests
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
@@ -11,8 +12,10 @@ DB_PATH = os.path.join(API_DIR, "db.json")
 COVER_DIR = os.path.join(API_DIR, "cover")
 H5_KWARGS = {"client_type": "H5", "version_code": "32"}
 NAV_IDS = [1, 2, 3, 119, 120, 165]
+MAX_PAGES = 10
 
 scan_status = {"running": False, "total": 0, "done": 0, "new": 0, "errors": 0}
+db_lock = threading.RLock()
 
 
 def _download(url, path):
@@ -58,9 +61,6 @@ def _extract(mv, tid):
     coverV_file = f"{tid}-V.webp"
     coverH_file = f"{tid}-H.webp"
 
-    _download(coverV_url, os.path.join(COVER_DIR, coverV_file))
-    _download(coverH_url, os.path.join(COVER_DIR, coverH_file))
-
     return {
         "id": int(tid),
         "title": mv.get("enName") or mv.get("title") or mv.get("name", "?"),
@@ -74,6 +74,8 @@ def _extract(mv, tid):
         "score": mv.get("score", 0),
         "coverV": coverV_file,
         "coverH": coverH_file,
+        "coverVUrl": coverV_url,
+        "coverHUrl": coverH_url,
         "episodeVo": eps,
     }
 
@@ -95,20 +97,28 @@ def _fetch_one(tid):
 def _collect_ids():
     all_ids = set()
     for nav in NAV_IDS:
-        try:
-            r = get_home(nav, 0, **H5_KWARGS)
-            if r.status_code != 200:
-                continue
-            d = r.json()
-            if d.get("code") != "00000":
-                continue
-            for sect in d.get("data", {}).get("recommendItems", []):
-                for x in sect.get("recommendContentVOList", []):
-                    cid = x.get("cid") or x.get("id")
-                    if cid:
-                        all_ids.add(str(cid))
-        except Exception:
-            continue
+        for page in range(MAX_PAGES):
+            try:
+                r = get_home(nav, page, **H5_KWARGS)
+                if r.status_code != 200:
+                    break
+                d = r.json()
+                if d.get("code") != "00000":
+                    break
+                items = d.get("data", {}).get("recommendItems", [])
+                if not items:
+                    break
+                count = 0
+                for sect in items:
+                    for x in sect.get("recommendContentVOList", []):
+                        cid = x.get("cid") or x.get("id")
+                        if cid:
+                            all_ids.add(str(cid))
+                            count += 1
+                if count == 0:
+                    break
+            except Exception:
+                break
     return all_ids
 
 
@@ -120,9 +130,15 @@ def load_db():
 
 
 def save_db(movies):
-    os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
-    with open(DB_PATH, "w", encoding="utf-8") as f:
-        json.dump(movies, f, indent=2, ensure_ascii=False)
+    with db_lock:
+        os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
+        tmp = DB_PATH + ".tmp"
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(movies, f, indent=2, ensure_ascii=False)
+        if os.path.exists(DB_PATH):
+            os.replace(tmp, DB_PATH)
+        else:
+            os.rename(tmp, DB_PATH)
 
 
 def scan_all():
